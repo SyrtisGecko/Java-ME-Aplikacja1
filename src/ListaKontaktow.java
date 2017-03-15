@@ -26,7 +26,7 @@ public class ListaKontaktow extends List implements CommandListener {
 
 	private void createCommands() {
 		powrot = new Command("Powrot", Command.BACK, 1);
-		wybierz = new Command("Szczegoly", Command.ITEM, 3);
+		wybierz = new Command("Pokaz szczegoly", Command.ITEM, 3);
 		usun = new Command("Usun kontakt", Command.ITEM, 1);
 		usun_wszystkie = new Command("Usun wszystkie", Command.ITEM, 1);
 	}

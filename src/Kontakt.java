@@ -50,5 +50,10 @@ public class Kontakt {
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
+	
+	//------------
+	public void wyswietl() {
+		System.out.println(getNazwa() + " " + getNrTelefonu());
+	}
 
 }

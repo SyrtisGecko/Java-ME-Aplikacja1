@@ -1,3 +1,5 @@
+import javax.microedition.lcdui.Alert;
+import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Choice;
 import javax.microedition.lcdui.ChoiceGroup;
 import javax.microedition.lcdui.Command;
@@ -20,6 +22,7 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 	private StringItem naglowek, separator;
 	private ChoiceGroup wyborEmotikony;
 //	private ImageItem obr;
+	Alert nowyKontaktAlert;
 
 	private String[] opcja = {"", "", ""};
 	private Image[] image = {null, null, null};
@@ -82,6 +85,20 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		image[1] = img;
 		image[2] = img;
 	}
+	
+	private void nowyKontaktPopUp() {
+		nowyKontaktAlert = new Alert("Nowy kontakt", "\"" + nazwaText.getString() + "\" dodano do listy kontaktow.", null, AlertType.INFO);
+		nowyKontaktAlert.setTimeout(2000);
+		wyswietlacz.setCurrent(nowyKontaktAlert, this);
+	}
+	
+	private void wyczyscPola() {
+		nazwaText.setString("");
+		numerTelefonu.setString("");
+		numerAlternatywny.setString("");
+		email.setString("");
+		opis.setString("");
+	}
 
 	public void commandAction(Command komenda, Displayable elemEkranu) {
 		
@@ -89,6 +106,11 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 			wyswietlacz.setCurrent(ekranP);
 			
 		} else if(komenda == zapisz) {
+			
+			Kontakt kontakt = new Kontakt(nazwaText.getString(), numerTelefonu.getString(), numerAlternatywny.getString(), email.getString(), opis.getString());
+			kontakt.wyswietl();
+			nowyKontaktPopUp();
+			wyczyscPola();
 			
 //			byte[] rekord = this.getString().getBytes();
 //			if(rekord.length > 0)
