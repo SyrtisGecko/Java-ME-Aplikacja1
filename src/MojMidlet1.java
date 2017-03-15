@@ -118,6 +118,8 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 			ex.printStackTrace();
 		}
 	}
+	
+	
 
 	public void commandAction(Command komenda, Displayable elemEkranu) {
 		if(komenda == koniec) {

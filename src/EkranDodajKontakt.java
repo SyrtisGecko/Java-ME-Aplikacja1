@@ -96,13 +96,13 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 	
 	private void nowyKontaktPopUp() {
 		Alert nowyKontaktAlert = new Alert("Nowy kontakt", "\"" + nazwaText.getString() + "\" dodano do listy kontaktow.", null, AlertType.INFO);
-		nowyKontaktAlert.setTimeout(2000);
+		nowyKontaktAlert.setTimeout(2500);
 		wyswietlacz.setCurrent(nowyKontaktAlert, this);
 	}
 	
 	private void nieprawidlowyKontaktPopUp() {
 		Alert nieprawidlowyKontaktAlert = new Alert("!!!UWAGA!!!", "Nieprawidlowe dane. Nie mozna dodac do listy kontaktow.", null, AlertType.WARNING);
-		nieprawidlowyKontaktAlert.setTimeout(2000);
+		nieprawidlowyKontaktAlert.setTimeout(2500);
 		wyswietlacz.setCurrent(nieprawidlowyKontaktAlert, this);
 	}
 	
@@ -135,6 +135,14 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			str_b.close();
+			str_wyj.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void commandAction(Command komenda, Displayable elemEkranu) {
