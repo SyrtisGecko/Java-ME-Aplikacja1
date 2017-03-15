@@ -1,7 +1,11 @@
 
 public class Kontakt {
 	
-	private String nazwa, nrTelefonu, nrAlternatywny, email, opis;
+	private String nazwa = "";
+	private String nrTelefonu = "";
+	private String nrAlternatywny = "";
+	private String email = "";
+	private String opis = "";
 	
 	public Kontakt(String nazwa, String nrTelefonu, String nrAlternatywny, String email, String opis) {
 		this.setNazwa(nazwa);

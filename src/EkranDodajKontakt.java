@@ -1,3 +1,7 @@
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Choice;
@@ -17,12 +21,14 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 	
 	private Display wyswietlacz;
 	private Displayable ekranP;
-	private Command powrot, zapisz;
+	private Command powrot, zapisz, wyczysc;
 	private TextField nazwaText, numerTelefonu, numerAlternatywny, opis, email;
 	private StringItem naglowek, separator;
 	private ChoiceGroup wyborEmotikony;
 //	private ImageItem obr;
-	Alert nowyKontaktAlert;
+//	Alert nowyKontaktAlert;
+	
+	Kontakt kontakt;
 
 	private String[] opcja = {"", "", ""};
 	private Image[] image = {null, null, null};
@@ -35,9 +41,11 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 
 		powrot = new Command("Powrot", Command.BACK, 1);		
 		zapisz = new Command("Zapisz", Command.ITEM, 1);
+		wyczysc = new Command("Wyczysc", Command.ITEM, 1);
 
 		this.addCommand(powrot);
 		this.addCommand(zapisz);
+		this.addCommand(wyczysc);
 
 		this.setCommandListener(this);
 		
@@ -87,9 +95,15 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 	}
 	
 	private void nowyKontaktPopUp() {
-		nowyKontaktAlert = new Alert("Nowy kontakt", "\"" + nazwaText.getString() + "\" dodano do listy kontaktow.", null, AlertType.INFO);
+		Alert nowyKontaktAlert = new Alert("Nowy kontakt", "\"" + nazwaText.getString() + "\" dodano do listy kontaktow.", null, AlertType.INFO);
 		nowyKontaktAlert.setTimeout(2000);
 		wyswietlacz.setCurrent(nowyKontaktAlert, this);
+	}
+	
+	private void nieprawidlowyKontaktPopUp() {
+		Alert nieprawidlowyKontaktAlert = new Alert("!!!UWAGA!!!", "Nieprawidlowe dane. Nie mozna dodac do listy kontaktow.", null, AlertType.WARNING);
+		nieprawidlowyKontaktAlert.setTimeout(2000);
+		wyswietlacz.setCurrent(nieprawidlowyKontaktAlert, this);
 	}
 	
 	private void wyczyscPola() {
@@ -99,6 +113,29 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		email.setString("");
 		opis.setString("");
 	}
+	
+	private void zapiszKontakt() {
+		ByteArrayOutputStream str_b = new ByteArrayOutputStream();
+		DataOutputStream str_wyj = new DataOutputStream(str_b);
+		try {
+			str_wyj.writeUTF(kontakt.getNazwa());
+			str_wyj.writeUTF(kontakt.getNrTelefonu());
+			str_wyj.writeUTF(kontakt.getNrAlternatywny());
+			str_wyj.writeUTF(kontakt.getEmail());
+			str_wyj.writeUTF(kontakt.getOpis());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		byte[] rekord = str_b.toByteArray();
+		try {
+			MojMidlet1.magazyn.addRecord(rekord, 0, rekord.length);
+		} catch (RecordStoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public void commandAction(Command komenda, Displayable elemEkranu) {
 		
@@ -107,10 +144,16 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 			
 		} else if(komenda == zapisz) {
 			
-			Kontakt kontakt = new Kontakt(nazwaText.getString(), numerTelefonu.getString(), numerAlternatywny.getString(), email.getString(), opis.getString());
-			kontakt.wyswietl();
-			nowyKontaktPopUp();
-			wyczyscPola();
+			if(nazwaText.getString().equals("") || nazwaText.getString().equals(null)) {
+				nieprawidlowyKontaktPopUp();
+				
+			} else {
+				kontakt = new Kontakt(nazwaText.getString(), numerTelefonu.getString(), numerAlternatywny.getString(), email.getString(), opis.getString());
+				kontakt.wyswietl();
+				zapiszKontakt();
+				nowyKontaktPopUp();
+				wyczyscPola();
+			}
 			
 //			byte[] rekord = this.getString().getBytes();
 //			if(rekord.length > 0)
@@ -121,6 +164,8 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 //					ex.printStackTrace();
 //				}
 //			else this.setString("...nic nie zapisano");
+		} else if(komenda == wyczysc) {
+			wyczyscPola();
 		}
 
 	}
