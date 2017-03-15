@@ -3,6 +3,7 @@ import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
+import javax.microedition.lcdui.List;
 import javax.microedition.lcdui.TextBox;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
@@ -25,15 +26,18 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	private static Display wyswietlacz;
 	
 	// deklaracja zmiennych TextBox
-	TextBox tb, okno2, okno3;
+	TextBox tb; // okno2, okno3;
 	
 	// deklaracja zmiennych dla komend
-	private Command koniec, o2, wprowadz, wyswietl, dodaj_kontakt;
+	private Command koniec, dodaj_kontakt, wyswietl_liste; //o2, wprowadz, wyswietl, ;
 	
 	// deklaracja magazynu przechowujacego zapisany tekst
 	public static RecordStore magazyn;
 
 	Form dodajKontaktForm;
+	
+	List listaKontaktow;
+	
 	
 	public MojMidlet1() {
 
@@ -54,9 +58,11 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	
 
 	private void addScreens(TextBox tb) {
-		okno2 = (TextBox) new Ekran2(tb);
-		okno3 = (TextBox) new Ekran3(tb);
+//		okno2 = (TextBox) new Ekran2(tb);
+//		okno3 = (TextBox) new Ekran3(tb);
 		dodajKontaktForm = new EkranDodajKontakt(tb);
+		String[] str = {"Kontakt_1", "Kontakt_2", "Kontakt_3"};
+		listaKontaktow = new ListaKontaktow(tb, str, null);
 	}
 
 
@@ -64,18 +70,20 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	private void createCommands() {
 		koniec = new Command("Koniec", Command.EXIT, 1);
 //		o2 = new Command("Okno_2", Command.SCREEN, 1);
-		wprowadz = new Command("Wprowadz dane", Command.ITEM, 1);
-		wyswietl = new Command("Wyswietl dane", Command.ITEM, 1);
+//		wprowadz = new Command("Wprowadz dane", Command.ITEM, 1);
+//		wyswietl = new Command("Wyswietl dane", Command.ITEM, 1);
 		dodaj_kontakt = new Command("Dodaj Kontakt", Command.ITEM, 1);
+		wyswietl_liste = new Command("Wyswietl liste", Command.ITEM, 1);
 		
 	}
 	
 	private void addCommands(Displayable d) {
 //		d.addCommand(o2);
-		d.addCommand(wprowadz);
-		d.addCommand(wyswietl);
+//		d.addCommand(wprowadz);
+//		d.addCommand(wyswietl);
 		d.addCommand(koniec);
 		d.addCommand(dodaj_kontakt);
+		d.addCommand(wyswietl_liste);
 		
 	}
 	protected void destroyApp(boolean unconditional) throws MIDletStateChangeException {
@@ -117,20 +125,21 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 			try {
 				destroyApp(false);
 			} catch (MIDletStateChangeException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// zawiadom platforme
 			notifyDestroyed();
-		} else if(komenda == o2) {
-			wyswietlacz.setCurrent(okno2);
-		} else if(komenda == wprowadz) {
-			wyswietlacz.setCurrent(okno3);
-		} else if(komenda == wyswietl) {
-			wyswietlacz.setCurrent(okno2);
-			((Ekran2) okno2).wyswietlCalyTekst();
+//		} else if(komenda == o2) {
+//			wyswietlacz.setCurrent(okno2);
+//		} else if(komenda == wprowadz) {
+//			wyswietlacz.setCurrent(okno3);
+//		} else if(komenda == wyswietl) {
+//			wyswietlacz.setCurrent(okno2);
+//			((Ekran2) okno2).wyswietlCalyTekst();
 		} else if(komenda == dodaj_kontakt) {
 			wyswietlacz.setCurrent(dodajKontaktForm);
+		} else if(komenda == wyswietl_liste) {
+			wyswietlacz.setCurrent(listaKontaktow);
 		}
 		
 	}
