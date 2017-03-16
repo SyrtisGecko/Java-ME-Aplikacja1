@@ -11,8 +11,6 @@ import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
-import javax.microedition.lcdui.Image;
-import javax.microedition.lcdui.ImageItem;
 import javax.microedition.lcdui.StringItem;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.rms.RecordStoreException;
@@ -25,12 +23,9 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 	private TextField nazwaText, numerTelefonu, numerAlternatywny, opis, email;
 	private StringItem naglowek, separator;
 	private ChoiceGroup wyborEmotikony;
-//	private ImageItem obr;
 	
 	Kontakt kontakt;
 
-	private String[] opcja = {"", "", ""};
-	private Image[] image = {null, null, null};
 	Emotikony emotikony;
 	
 	public EkranDodajKontakt(Displayable ekranPowrotny) {
@@ -71,9 +66,7 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		numerAlternatywny = new TextField("Numer alternatywny:", "", 16, TextField.PHONENUMBER);
 		email = new TextField("Adres e-mail:", "", 30, TextField.EMAILADDR);
 		opis = new TextField("Opis:", "", 100, TextField.ANY);
-		loadImg();
 		wyborEmotikony = new ChoiceGroup("Wybierz emotikone:", Choice.EXCLUSIVE, pustyString(emotikony.getSize()), emotikony.getArrayOfEmots());	
-//		obr = new ImageItem(null, image[0], ImageItem.LAYOUT_DEFAULT, null);
 	}
 
 	private String[] pustyString(int size) {
@@ -94,32 +87,6 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		this.append(email);
 		this.append(opis);
 		this.append(wyborEmotikony);		
-	}
-	
-	private void loadImg() {
-		Image img = null;
-		try {
-			img = Image.createImage("/img/passive.png");
-		} catch (java.io.IOException e) {
-			e.printStackTrace();
-			img = null;
-		}
-		
-		image[0] = img;
-		image[1] = img;
-		image[2] = img;
-	}
-	
-	private void nowyKontaktPopUp() {
-		Alert nowyKontaktAlert = new Alert("Nowy kontakt", "\"" + nazwaText.getString() + "\" dodano do listy kontaktow.", null, AlertType.INFO);
-		nowyKontaktAlert.setTimeout(2500);
-		wyswietlacz.setCurrent(nowyKontaktAlert, this);
-	}
-	
-	private void nieprawidlowyKontaktPopUp() {
-		Alert nieprawidlowyKontaktAlert = new Alert("!!!UWAGA!!!", "Nieprawidlowe dane. Nie mozna dodac do listy kontaktow.", null, AlertType.WARNING);
-		nieprawidlowyKontaktAlert.setTimeout(2500);
-		wyswietlacz.setCurrent(nieprawidlowyKontaktAlert, this);
 	}
 	
 	private void wyczyscPola() {
@@ -169,7 +136,7 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 				nieprawidlowyKontaktPopUp();
 				
 			} else {
-				kontakt = new Kontakt(nazwaText.getString(), numerTelefonu.getString(), numerAlternatywny.getString(), email.getString(), opis.getString());
+				kontakt = new Kontakt(nazwaText.getString(), numerTelefonu.getString(), numerAlternatywny.getString(), email.getString(), opis.getString(), emotikony.getStringIndex(wyborEmotikony.getImage(wyborEmotikony.getSelectedIndex())));
 				kontakt.wyswietl();
 				zapiszKontakt();
 				nowyKontaktPopUp();
@@ -189,6 +156,18 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 			wyczyscPola();
 		}
 
+	}
+	
+	private void nowyKontaktPopUp() {
+		Alert nowyKontaktAlert = new Alert("Nowy kontakt", "\"" + nazwaText.getString() + "\" dodano do listy kontaktow.", null, AlertType.INFO);
+		nowyKontaktAlert.setTimeout(2500);
+		wyswietlacz.setCurrent(nowyKontaktAlert, this);
+	}
+	
+	private void nieprawidlowyKontaktPopUp() {
+		Alert nieprawidlowyKontaktAlert = new Alert("!!!UWAGA!!!", "Nieprawidlowe dane. Nie mozna dodac do listy kontaktow.", null, AlertType.WARNING);
+		nieprawidlowyKontaktAlert.setTimeout(2500);
+		wyswietlacz.setCurrent(nieprawidlowyKontaktAlert, this);
 	}
 
 }

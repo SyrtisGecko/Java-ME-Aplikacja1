@@ -6,13 +6,16 @@ public class Kontakt {
 	private String nrAlternatywny = "";
 	private String email = "";
 	private String opis = "";
+	private String emotikona = "0";
 	
-	public Kontakt(String nazwa, String nrTelefonu, String nrAlternatywny, String email, String opis) {
+	
+	public Kontakt(String nazwa, String nrTelefonu, String nrAlternatywny, String email, String opis, String emotikona) {
 		this.setNazwa(nazwa);
 		this.setNrTelefonu(nrTelefonu);
 		this.setNrAlternatywny(nrAlternatywny);
 		this.setEmail(email);
 		this.setOpis(opis);
+		this.setEmotikona(emotikona);
 	}
 
 	public String getNazwa() {
@@ -55,9 +58,18 @@ public class Kontakt {
 		this.opis = opis;
 	}
 	
+	public String getEmotikona() {
+		return emotikona;
+	}
+
+	public void setEmotikona(String emotikona) {
+		this.emotikona = emotikona;
+	}
+
+	
 	//------------
 	public void wyswietl() {
-		System.out.println(getNazwa() + " " + getNrTelefonu());
+		System.out.println(getNazwa() + " " + getNrTelefonu() + " Emot: " + getEmotikona());
 	}
 
 }
