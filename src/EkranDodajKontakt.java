@@ -26,7 +26,6 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 	private StringItem naglowek, separator;
 	private ChoiceGroup wyborEmotikony;
 //	private ImageItem obr;
-//	Alert nowyKontaktAlert;
 	
 	Kontakt kontakt;
 
@@ -38,14 +37,9 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
 		
-
-		powrot = new Command("Powrot", Command.BACK, 1);		
-		zapisz = new Command("Zapisz", Command.ITEM, 1);
-		wyczysc = new Command("Wyczysc", Command.ITEM, 1);
-
-		this.addCommand(powrot);
-		this.addCommand(zapisz);
-		this.addCommand(wyczysc);
+		createCommands();
+		
+		addCommands();
 
 		this.setCommandListener(this);
 		
@@ -53,6 +47,18 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		
 		appendItems();
 		
+	}
+
+	private void addCommands() {
+		this.addCommand(powrot);
+		this.addCommand(zapisz);
+		this.addCommand(wyczysc);
+	}
+
+	private void createCommands() {
+		powrot = new Command("Powrot", Command.BACK, 1);		
+		zapisz = new Command("Zapisz", Command.ITEM, 1);
+		wyczysc = new Command("Wyczysc", Command.ITEM, 1);
 	}
 
 	private void defineFormItems() {
@@ -76,7 +82,6 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		this.append(numerAlternatywny);
 		this.append(email);
 		this.append(opis);
-//		this.append(obr);
 		this.append(wyborEmotikony);		
 	}
 	
@@ -124,7 +129,6 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 			str_wyj.writeUTF(kontakt.getEmail());
 			str_wyj.writeUTF(kontakt.getOpis());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -132,14 +136,12 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		try {
 			MojMidlet1.magazyn.addRecord(rekord, 0, rekord.length);
 		} catch (RecordStoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			str_b.close();
 			str_wyj.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
