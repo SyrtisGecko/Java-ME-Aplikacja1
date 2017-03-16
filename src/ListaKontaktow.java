@@ -6,6 +6,10 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.List;
+import javax.microedition.rms.InvalidRecordIDException;
+import javax.microedition.rms.RecordEnumeration;
+import javax.microedition.rms.RecordStoreException;
+import javax.microedition.rms.RecordStoreNotOpenException;
 
 public class ListaKontaktow extends List implements CommandListener {
 	
@@ -56,6 +60,27 @@ public class ListaKontaktow extends List implements CommandListener {
 		
 	}
 	
+	private void wyczyscMagazyn() {
+		RecordEnumeration iterator;
+		try {
+			iterator = MojMidlet1.magazyn.enumerateRecords(null, null, false);
+			iterator.rebuild();
+			
+			while(iterator.hasNextElement()) {
+				int i = iterator.nextRecordId();
+				byte[] rekord = iterator.nextRecord();
+				MojMidlet1.magazyn.deleteRecord(i);
+			}
+		} catch (RecordStoreNotOpenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidRecordIDException e) {
+			e.printStackTrace();
+		} catch (RecordStoreException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void commandAction(Command komenda, Displayable elemEkranu) {
 		if(komenda == powrot) {
 			wyswietlacz.setCurrent(ekranP);
@@ -67,6 +92,7 @@ public class ListaKontaktow extends List implements CommandListener {
 			usunWszystkoPopUp();
 		} else if(komenda == tak) {
 			System.out.println("Wybrano TAK");
+			wyczyscMagazyn();
 			wyswietlacz.setCurrent(this);
 		} else if(komenda == nie) {
 			System.out.println("Wybrano NIE");
