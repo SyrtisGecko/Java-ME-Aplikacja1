@@ -106,6 +106,7 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 			str_wyj.writeUTF(kontakt.getNrAlternatywny());
 			str_wyj.writeUTF(kontakt.getEmail());
 			str_wyj.writeUTF(kontakt.getOpis());
+			str_wyj.writeUTF(kontakt.getEmotikona());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
