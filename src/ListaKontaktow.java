@@ -4,6 +4,7 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
+import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.List;
 import javax.microedition.rms.InvalidRecordIDException;
@@ -11,14 +12,14 @@ import javax.microedition.rms.RecordEnumeration;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreNotOpenException;
 
-public class ListaKontaktow extends List implements CommandListener {
+public class ListaKontaktow extends Form implements CommandListener {
 	
 	private Display wyswietlacz;
 	private Displayable ekranP;
 	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie;
 
-	public ListaKontaktow(Displayable ekranPowrotny, String[] nazwyKontaktow, Image[] emotyKontaktow) {
-		super("Twoja Lista Kontaktow", List.EXCLUSIVE, nazwyKontaktow, emotyKontaktow);
+	public ListaKontaktow(Displayable ekranPowrotny) {
+		super("Twoja Lista Kontaktow");
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
 		
@@ -27,8 +28,16 @@ public class ListaKontaktow extends List implements CommandListener {
 		addCommands();
 		
 		this.setCommandListener(this);
+		
+		wyswietlKontakty();
 	}
 	
+
+	private void wyswietlKontakty() {
+		
+		
+	}
+
 
 	private void createCommands() {
 		powrot = new Command("Powrot", Command.BACK, 1);

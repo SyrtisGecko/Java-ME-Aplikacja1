@@ -35,8 +35,9 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	public static RecordStore magazyn;
 
 	Form dodajKontaktForm;
+	Form listaKontaktow;
 	
-	List listaKontaktow;
+//	List listaKontaktow;
 	
 	
 	public MojMidlet1() {
@@ -61,8 +62,8 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 //		okno2 = (TextBox) new Ekran2(tb);
 //		okno3 = (TextBox) new Ekran3(tb);
 		dodajKontaktForm = new EkranDodajKontakt(tb);
-		String[] str = {"Kontakt_1", "Kontakt_2", "Kontakt_3"};
-		listaKontaktow = new ListaKontaktow(tb, str, null);
+//		String[] str = {"Kontakt_1", "Kontakt_2", "Kontakt_3"};
+		listaKontaktow = new ListaKontaktow(tb);
 	}
 
 
