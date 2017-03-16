@@ -31,11 +31,13 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 
 	private String[] opcja = {"", "", ""};
 	private Image[] image = {null, null, null};
+	Emotikony emotikony;
 	
 	public EkranDodajKontakt(Displayable ekranPowrotny) {
 		super("Dodaj Kontakt");
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
+		emotikony = new Emotikony();
 		
 		createCommands();
 		
@@ -70,8 +72,17 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		email = new TextField("Adres e-mail:", "", 30, TextField.EMAILADDR);
 		opis = new TextField("Opis:", "", 100, TextField.ANY);
 		loadImg();
-		wyborEmotikony = new ChoiceGroup("Wybierz emotikone:", Choice.EXCLUSIVE, opcja, image);	
+		wyborEmotikony = new ChoiceGroup("Wybierz emotikone:", Choice.EXCLUSIVE, pustyString(emotikony.getSize()), emotikony.getArrayOfEmots());	
 //		obr = new ImageItem(null, image[0], ImageItem.LAYOUT_DEFAULT, null);
+	}
+
+	private String[] pustyString(int size) {
+		String[] str = new String[size];
+		for(int i = 0; i < size; i++) {
+			str[i] = "";
+		}
+		System.out.println(str.length);
+		return str;
 	}
 
 	private void appendItems() {
