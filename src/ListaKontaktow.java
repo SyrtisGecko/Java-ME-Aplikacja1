@@ -6,7 +6,9 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
-import javax.microedition.lcdui.List;
+import javax.microedition.lcdui.Item;
+import javax.microedition.lcdui.Spacer;
+import javax.microedition.lcdui.StringItem;
 import javax.microedition.rms.InvalidRecordIDException;
 import javax.microedition.rms.RecordEnumeration;
 import javax.microedition.rms.RecordStoreException;
@@ -17,6 +19,8 @@ public class ListaKontaktow extends Form implements CommandListener {
 	private Display wyswietlacz;
 	private Displayable ekranP;
 	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie;
+	
+	StringItem item_1, item_2, item_3, item_4;
 
 	public ListaKontaktow(Displayable ekranPowrotny) {
 		super("Twoja Lista Kontaktow");
@@ -34,8 +38,24 @@ public class ListaKontaktow extends Form implements CommandListener {
 	
 
 	private void wyswietlKontakty() {
+		item_1 = new StringItem(null, "Kontakt 1", Item.BUTTON);
+		item_1.setLayout(Item.LAYOUT_LEFT);
+		item_1.setPreferredSize(this.getWidth()/2 - 1, 15);
+		item_2 = new StringItem(null, "Kontakt 2", Item.BUTTON);
+		item_2.setLayout(Item.LAYOUT_LEFT);
+		item_2.setPreferredSize(this.getWidth()/2 - 1, 15);
+		item_3 = new StringItem(null, "EMO1", Item.BUTTON);
+		item_3.setLayout(Item.LAYOUT_RIGHT);
+		item_3.setPreferredSize(this.getWidth()/3 - 1, 15);
+		item_4 = new StringItem(null, "EMO2", Item.BUTTON);
+		item_4.setLayout(Item.LAYOUT_RIGHT);
+		item_4.setPreferredSize(this.getWidth()/3 - 1, 15);
 		
-		
+		this.append(item_1);
+		this.append(item_3);
+		this.append(new Spacer(this.getWidth(), 10));
+		this.append(item_2);
+		this.append(item_4);
 	}
 
 
@@ -64,7 +84,6 @@ public class ListaKontaktow extends Form implements CommandListener {
 		usunWszystkoAlert.addCommand(nie);
 		usunWszystkoAlert.setCommandListener(this);
 		
-//		usunWszystkoAlert.
 		wyswietlacz.setCurrent(usunWszystkoAlert);
 		
 	}
@@ -81,7 +100,6 @@ public class ListaKontaktow extends Form implements CommandListener {
 				MojMidlet1.magazyn.deleteRecord(i);
 			}
 		} catch (RecordStoreNotOpenException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidRecordIDException e) {
 			e.printStackTrace();
