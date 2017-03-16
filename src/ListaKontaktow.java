@@ -7,6 +7,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.Item;
+import javax.microedition.lcdui.ItemCommandListener;
 import javax.microedition.lcdui.Spacer;
 import javax.microedition.lcdui.StringItem;
 import javax.microedition.rms.InvalidRecordIDException;
@@ -14,13 +15,14 @@ import javax.microedition.rms.RecordEnumeration;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreNotOpenException;
 
-public class ListaKontaktow extends Form implements CommandListener {
+public class ListaKontaktow extends Form implements CommandListener, ItemCommandListener {
 	
 	private Display wyswietlacz;
 	private Displayable ekranP;
 	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie;
 	
 	StringItem item_1, item_2, item_3, item_4;
+//	ItemCommandListener icl;
 
 	public ListaKontaktow(Displayable ekranPowrotny) {
 		super("Twoja Lista Kontaktow");
@@ -50,6 +52,11 @@ public class ListaKontaktow extends Form implements CommandListener {
 		item_4 = new StringItem(null, "EMO2", Item.BUTTON);
 		item_4.setLayout(Item.LAYOUT_RIGHT);
 		item_4.setPreferredSize(this.getWidth()/3 - 1, 15);
+		
+		item_1.setDefaultCommand(new Command("Set_1", Command.ITEM, 2));
+		item_1.setItemCommandListener(this);
+		item_2.setDefaultCommand(new Command("Set_2", Command.ITEM, 2));
+		item_2.setItemCommandListener(this);
 		
 		this.append(item_1);
 		this.append(item_3);
@@ -125,6 +132,12 @@ public class ListaKontaktow extends Form implements CommandListener {
 			System.out.println("Wybrano NIE");
 			wyswietlacz.setCurrent(this);
 		} 
+	}
+
+
+	public void commandAction(Command c, Item item) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
