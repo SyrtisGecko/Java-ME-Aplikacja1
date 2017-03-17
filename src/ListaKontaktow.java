@@ -100,7 +100,7 @@ public class ListaKontaktow extends Form implements CommandListener, ItemCommand
 		try {
 			iterator = MojMidlet1.magazyn.enumerateRecords(null, null, false);
 			iterator.rebuild();
-			
+			// TODO to be checked
 			while(iterator.hasNextElement()) {
 				int i = iterator.nextRecordId();
 				byte[] rekord = iterator.nextRecord();
