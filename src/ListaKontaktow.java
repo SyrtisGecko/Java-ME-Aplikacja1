@@ -13,6 +13,7 @@ import javax.microedition.lcdui.Spacer;
 import javax.microedition.lcdui.StringItem;
 import javax.microedition.rms.InvalidRecordIDException;
 import javax.microedition.rms.RecordEnumeration;
+import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreNotOpenException;
 
@@ -141,38 +142,29 @@ public class ListaKontaktow extends List implements CommandListener {
 	}
 	
 	private void wyczyscMagazyn() {
-		RecordEnumeration iterator;
-		wyswietlRozmiar();
+//		RecordEnumeration iterator;
 		System.out.println("wyczyscMagazyn()");
 		try {
-			iterator = MojMidlet1.magazyn.enumerateRecords(null, null, false);
-			iterator.rebuild();
-			// TODO to be checked
-			while(iterator.hasNextElement()) {
-				int i = iterator.nextRecordId();
-//				byte[] rekord = iterator.nextRecord();
-				MojMidlet1.magazyn.deleteRecord(i);
-				wyswietlRozmiar();
-				System.out.println("wyczyscMagazyn().rekord " + i);
-			}
+//			iterator = MojMidlet1.magazyn.enumerateRecords(null, null, false);
+			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
+			MojMidlet1.magazyn.closeRecordStore();
+			RecordStore.deleteRecordStore("Wpisy");
+			MojMidlet1.magazyn = RecordStore.openRecordStore("Wpisy", true, RecordStore.AUTHMODE_PRIVATE, false);
+			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
+			
+//			while(iterator.hasNextElement()) {
+//				int i = iterator.nextRecordId();
+////				byte[] rekord = iterator.nextRecord();
+//				MojMidlet1.magazyn.deleteRecord(i);
+//				System.out.println("wyczyscMagazyn().rekord " + i);
+//			}
 		} catch (RecordStoreNotOpenException e) {
 			e.printStackTrace();
-		} catch (InvalidRecordIDException e) {
-			e.printStackTrace();
+//		} catch (InvalidRecordIDException e) {
+//			e.printStackTrace();
 		} catch (RecordStoreException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private void wyswietlRozmiar() {
-		try {
-			int s = MojMidlet1.magazyn.getSize();
-			System.out.println(s);
-		} catch (RecordStoreNotOpenException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 
 
@@ -193,12 +185,6 @@ public class ListaKontaktow extends List implements CommandListener {
 			System.out.println("Wybrano NIE");
 			wyswietlacz.setCurrent(this);
 		} 
-	}
-
-
-	public void commandAction(Command c, Item item) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
