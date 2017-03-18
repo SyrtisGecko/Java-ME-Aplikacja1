@@ -41,15 +41,8 @@ public class ListaKontaktow extends List implements CommandListener {
 		super("Twoja Lista Kontaktow", List.EXCLUSIVE);
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
-		kontakty = new Vector();
-		
+//		kontakty = new Vector();
 		emoty = new Emotikony();
-		img[0] = emoty.getEmot(4);
-		img[1] = emoty.getEmot(1);
-		img[2] = emoty.getEmot(11);
-		this.append(str[0], img[0]);
-		this.append(str[1], img[1]);
-		this.append(str[2], img[2]);
 		
 		createCommands();
 		
@@ -62,6 +55,8 @@ public class ListaKontaktow extends List implements CommandListener {
 	
 
 	protected void zaladujKontakty() {
+		kontakty = new Vector();
+//		RecordEnumeration iterator;
 //		int n = 0;
 //		
 //		try {
@@ -84,10 +79,15 @@ public class ListaKontaktow extends List implements CommandListener {
 				System.out.println(Tekst);
 				ByteArrayInputStream str_b = new ByteArrayInputStream(rekord);
 				DataInputStream str_wej = new DataInputStream(str_b);
+//				System.out.println("str_b stream " + str_b.toString());
+//				System.out.println("str_wej stream " + str_wej.toString());
 				
 				try {
+					System.out.println("str_wej stream " + str_wej.toString());
 					Kontakt kontakt = new Kontakt(str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF());
 					kontakty.addElement(kontakt);
+					System.out.print("Dodano do wektora: ");
+					kontakt.wyswietl();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -104,18 +104,31 @@ public class ListaKontaktow extends List implements CommandListener {
 
 
 	protected void wyswietlKontakty() {
-		item_1 = new StringItem(null, "Kontakt 1", Item.BUTTON);
-		item_1.setLayout(Item.LAYOUT_LEFT);
-		item_1.setPreferredSize(this.getWidth()/2 - 1, 15);
-		item_2 = new StringItem(null, "Kontakt 2", Item.BUTTON);
-		item_2.setLayout(Item.LAYOUT_LEFT);
-		item_2.setPreferredSize(this.getWidth()/2 - 1, 15);
-		item_3 = new StringItem(null, "EMO1", Item.BUTTON);
-		item_3.setLayout(Item.LAYOUT_RIGHT);
-		item_3.setPreferredSize(this.getWidth()/3 - 1, 15);
-		item_4 = new StringItem(null, "EMO2", Item.BUTTON);
-		item_4.setLayout(Item.LAYOUT_RIGHT);
-		item_4.setPreferredSize(this.getWidth()/3 - 1, 15);
+		this.deleteAll();
+		
+		for(int i = 0; i < kontakty.size(); i++) {
+			this.append(((Kontakt) kontakty.elementAt(i)).getNazwa(), 
+							emoty.getEmot(Integer.parseInt(((Kontakt)kontakty.elementAt(i)).getEmotikona())));
+		}
+
+//		img[0] = emoty.getEmot(4);
+//		img[1] = emoty.getEmot(1);
+//		img[2] = emoty.getEmot(11);
+//		this.append(str[0], img[0]);
+//		this.append(str[1], img[1]);
+//		this.append(str[2], img[2]);
+//		item_1 = new StringItem(null, "Kontakt 1", Item.BUTTON);
+//		item_1.setLayout(Item.LAYOUT_LEFT);
+//		item_1.setPreferredSize(this.getWidth()/2 - 1, 15);
+//		item_2 = new StringItem(null, "Kontakt 2", Item.BUTTON);
+//		item_2.setLayout(Item.LAYOUT_LEFT);
+//		item_2.setPreferredSize(this.getWidth()/2 - 1, 15);
+//		item_3 = new StringItem(null, "EMO1", Item.BUTTON);
+//		item_3.setLayout(Item.LAYOUT_RIGHT);
+//		item_3.setPreferredSize(this.getWidth()/3 - 1, 15);
+//		item_4 = new StringItem(null, "EMO2", Item.BUTTON);
+//		item_4.setLayout(Item.LAYOUT_RIGHT);
+//		item_4.setPreferredSize(this.getWidth()/3 - 1, 15);
 		
 //		item_1.setDefaultCommand(new Command("Set_1", Command.ITEM, 2));
 //		item_1.setItemCommandListener(this);
