@@ -146,7 +146,7 @@ public class ListaKontaktow extends List implements CommandListener {
 		System.out.println("wyczyscMagazyn()");
 		try {
 			iterator = MojMidlet1.magazyn.enumerateRecords(null, null, false);
-//			iterator.rebuild();
+			iterator.rebuild();
 			// TODO to be checked
 			while(iterator.hasNextElement()) {
 				int i = iterator.nextRecordId();
