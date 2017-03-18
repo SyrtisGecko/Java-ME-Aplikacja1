@@ -161,6 +161,8 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 			wyswietlacz.setCurrent(dodajKontaktForm);
 		} else if(komenda == wyswietl_liste) {
 			wyswietlacz.setCurrent(listaKontaktow);
+			((ListaKontaktow) listaKontaktow).zaladujKontakty();
+			((ListaKontaktow) listaKontaktow).wyswietlKontakty();
 		}
 		
 	}

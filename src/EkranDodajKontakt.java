@@ -112,6 +112,8 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		}
 		
 		byte[] rekord = str_b.toByteArray();
+		String Tekst = new String(rekord);
+		System.out.println(Tekst);
 		try {
 			MojMidlet1.magazyn.addRecord(rekord, 0, rekord.length);
 		} catch (RecordStoreException e) {

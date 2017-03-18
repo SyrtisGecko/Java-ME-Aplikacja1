@@ -1,3 +1,10 @@
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.util.Vector;
+
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Command;
@@ -23,7 +30,7 @@ public class ListaKontaktow extends List implements CommandListener {
 	private Displayable ekranP;
 	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie;
 	private RecordEnumeration iterator;
-	private String CalyText;
+	private Vector kontakty;
 	
 	StringItem item_1, item_2, item_3, item_4;
 	String[] str = {"str_1", "str_2", "str_3"};
@@ -34,6 +41,7 @@ public class ListaKontaktow extends List implements CommandListener {
 		super("Twoja Lista Kontaktow", List.EXCLUSIVE);
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
+		kontakty = new Vector();
 		
 		emoty = new Emotikony();
 		img[0] = emoty.getEmot(4);
@@ -49,25 +57,24 @@ public class ListaKontaktow extends List implements CommandListener {
 		
 		this.setCommandListener(this);
 		
-		zaladujKontakty();
-		
-		wyswietlKontakty();
+//		wyswietlKontakty();
 	}
 	
 
-	private void zaladujKontakty() {/*
-		CalyText = "";
-		int n = 0;
-		
-		try {
-			n = MojMidlet1.magazyn.getSize();
-			System.out.println(n);
-		} catch (RecordStoreNotOpenException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if(n > 0) {
+	protected void zaladujKontakty() {
+//		int n = 0;
+//		
+//		try {
+//			n = MojMidlet1.magazyn.;
+//			System.out.println("Rozmiar magazynu: " + n);
+//		} catch (RecordStoreNotOpenException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (NullPointerException e) {
+//			System.out.println("Magazyn pusty");
+//		}
+//		
+//		if(n > 0) {
 		try {
 			iterator = MojMidlet1.magazyn.enumerateRecords(null, new KomparatorTekstu(), false);
 			
@@ -75,17 +82,28 @@ public class ListaKontaktow extends List implements CommandListener {
 				byte[] rekord = iterator.nextRecord();
 				String Tekst = new String(rekord);
 				System.out.println(Tekst);
-				CalyText += (Tekst + "\n");
+				ByteArrayInputStream str_b = new ByteArrayInputStream(rekord);
+				DataInputStream str_wej = new DataInputStream(str_b);
+				
+				try {
+					Kontakt kontakt = new Kontakt(str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF());
+					kontakty.addElement(kontakt);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} catch (RecordStoreException ex) {
 			ex.printStackTrace();
+		} catch (NullPointerException e) {
+			System.out.println("Magazyn pusty");
 		}
 //		this.setString(CalyText);	
-		}*/
+//		}
 }
 
 
-	private void wyswietlKontakty() {
+	protected void wyswietlKontakty() {
 		item_1 = new StringItem(null, "Kontakt 1", Item.BUTTON);
 		item_1.setLayout(Item.LAYOUT_LEFT);
 		item_1.setPreferredSize(this.getWidth()/2 - 1, 15);
