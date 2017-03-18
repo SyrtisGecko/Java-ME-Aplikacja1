@@ -1,8 +1,12 @@
+import java.io.IOException;
+
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
+import javax.microedition.lcdui.Image;
+import javax.microedition.lcdui.ImageItem;
 import javax.microedition.lcdui.TextBox;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
@@ -25,7 +29,7 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	private static Display wyswietlacz;
 	
 	// deklaracja zmiennych TextBox
-	TextBox tb; // okno2, okno3;
+	Form tb; // okno2, okno3;
 	
 	// deklaracja zmiennych dla komend
 	private Command koniec, dodaj_kontakt, wyswietl_liste; //o2, wprowadz, wyswietl, ;
@@ -35,6 +39,7 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 
 	Form dodajKontaktForm;
 	Form listaKontaktow;
+	Image obr;
 	
 //	List listaKontaktow;
 	
@@ -43,7 +48,9 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 
 		wyswietlacz = Display.getDisplay(this);
 		
-		tb = new TextBox("Moj Midlet1", "Witaj uzytkowniku!!", 256, 0);
+		tb = new Form("Moj Midlet1 - Lista kontaktow");
+		
+		displayImage();
 		
 		// tworzenie komend
 		createCommands();
@@ -57,7 +64,19 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 
 	
 
-	private void addScreens(TextBox tb) {
+	private void displayImage() {
+		try {
+			obr = Image.createImage("/img/friends-icon.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+			obr = null;
+		}
+	tb.append(new ImageItem(null, obr, ImageItem.LAYOUT_CENTER, null));
+}
+
+
+
+	private void addScreens(Form tb) {
 //		okno2 = (TextBox) new Ekran2(tb);
 //		okno3 = (TextBox) new Ekran3(tb);
 		dodajKontaktForm = new EkranDodajKontakt(tb);
