@@ -55,5 +55,9 @@ public class Emotikony {
 	public String getStringIndex(Image img) {
 		return Integer.toString(emoty.indexOf(img));
 	}
+	
+	public Image getEmot(int index) {
+		return (Image) emoty.elementAt(index);
+	}
 
 }

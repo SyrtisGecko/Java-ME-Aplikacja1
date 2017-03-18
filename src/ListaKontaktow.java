@@ -8,6 +8,7 @@ import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.Item;
 import javax.microedition.lcdui.ItemCommandListener;
+import javax.microedition.lcdui.List;
 import javax.microedition.lcdui.Spacer;
 import javax.microedition.lcdui.StringItem;
 import javax.microedition.rms.InvalidRecordIDException;
@@ -15,19 +16,30 @@ import javax.microedition.rms.RecordEnumeration;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreNotOpenException;
 
-public class ListaKontaktow extends Form implements CommandListener, ItemCommandListener {
+public class ListaKontaktow extends List implements CommandListener {
 	
 	private Display wyswietlacz;
 	private Displayable ekranP;
 	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie;
 	
 	StringItem item_1, item_2, item_3, item_4;
+	String[] str = {"str_1", "str_2", "str_3"};
+	Emotikony emoty;
+	Image[] img = {null, null, null};
 //	ItemCommandListener icl;
 
 	public ListaKontaktow(Displayable ekranPowrotny) {
-		super("Twoja Lista Kontaktow");
+		super("Twoja Lista Kontaktow", List.EXCLUSIVE);
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
+		
+		emoty = new Emotikony();
+		img[0] = emoty.getEmot(4);
+		img[1] = emoty.getEmot(1);
+		img[2] = emoty.getEmot(11);
+		this.append(str[0], img[0]);
+		this.append(str[1], img[1]);
+		this.append(str[2], img[2]);
 		
 		createCommands();
 		
@@ -53,16 +65,16 @@ public class ListaKontaktow extends Form implements CommandListener, ItemCommand
 		item_4.setLayout(Item.LAYOUT_RIGHT);
 		item_4.setPreferredSize(this.getWidth()/3 - 1, 15);
 		
-		item_1.setDefaultCommand(new Command("Set_1", Command.ITEM, 2));
-		item_1.setItemCommandListener(this);
-		item_2.setDefaultCommand(new Command("Set_2", Command.ITEM, 2));
-		item_2.setItemCommandListener(this);
+//		item_1.setDefaultCommand(new Command("Set_1", Command.ITEM, 2));
+//		item_1.setItemCommandListener(this);
+//		item_2.setDefaultCommand(new Command("Set_2", Command.ITEM, 2));
+//		item_2.setItemCommandListener(this);
 		
-		this.append(item_1);
-		this.append(item_3);
-		this.append(new Spacer(this.getWidth(), 10));
-		this.append(item_2);
-		this.append(item_4);
+//		this.append(item_1);
+//		this.append(item_3);
+//		this.append(new Spacer(this.getWidth(), 10));
+//		this.append(item_2);
+//		this.append(item_4);
 	}
 
 

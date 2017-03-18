@@ -7,7 +7,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.ImageItem;
-import javax.microedition.lcdui.TextBox;
+import javax.microedition.lcdui.List;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 import javax.microedition.rms.RecordStore;
@@ -38,7 +38,7 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	public static RecordStore magazyn;
 
 	Form dodajKontaktForm;
-	Form listaKontaktow;
+	List listaKontaktow;
 	Image obr;
 	
 //	List listaKontaktow;
