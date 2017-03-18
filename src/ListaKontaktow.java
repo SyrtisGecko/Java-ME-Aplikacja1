@@ -21,12 +21,13 @@ public class ListaKontaktow extends List implements CommandListener {
 	private Display wyswietlacz;
 	private Displayable ekranP;
 	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie;
+	private RecordEnumeration iterator;
+	private String CalyText;
 	
 	StringItem item_1, item_2, item_3, item_4;
 	String[] str = {"str_1", "str_2", "str_3"};
 	Emotikony emoty;
 	Image[] img = {null, null, null};
-//	ItemCommandListener icl;
 
 	public ListaKontaktow(Displayable ekranPowrotny) {
 		super("Twoja Lista Kontaktow", List.EXCLUSIVE);
@@ -47,9 +48,41 @@ public class ListaKontaktow extends List implements CommandListener {
 		
 		this.setCommandListener(this);
 		
+		zaladujKontakty();
+		
 		wyswietlKontakty();
 	}
 	
+
+	private void zaladujKontakty() {/*
+		CalyText = "";
+		int n = 0;
+		
+		try {
+			n = MojMidlet1.magazyn.getSize();
+			System.out.println(n);
+		} catch (RecordStoreNotOpenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(n > 0) {
+		try {
+			iterator = MojMidlet1.magazyn.enumerateRecords(null, new KomparatorTekstu(), false);
+			
+			while(iterator.hasNextElement()) {
+				byte[] rekord = iterator.nextRecord();
+				String Tekst = new String(rekord);
+				System.out.println(Tekst);
+				CalyText += (Tekst + "\n");
+			}
+		} catch (RecordStoreException ex) {
+			ex.printStackTrace();
+		}
+//		this.setString(CalyText);	
+		}*/
+}
+
 
 	private void wyswietlKontakty() {
 		item_1 = new StringItem(null, "Kontakt 1", Item.BUTTON);
@@ -109,14 +142,18 @@ public class ListaKontaktow extends List implements CommandListener {
 	
 	private void wyczyscMagazyn() {
 		RecordEnumeration iterator;
+		wyswietlRozmiar();
+		System.out.println("wyczyscMagazyn()");
 		try {
 			iterator = MojMidlet1.magazyn.enumerateRecords(null, null, false);
-			iterator.rebuild();
+//			iterator.rebuild();
 			// TODO to be checked
 			while(iterator.hasNextElement()) {
 				int i = iterator.nextRecordId();
-				byte[] rekord = iterator.nextRecord();
+//				byte[] rekord = iterator.nextRecord();
 				MojMidlet1.magazyn.deleteRecord(i);
+				wyswietlRozmiar();
+				System.out.println("wyczyscMagazyn().rekord " + i);
 			}
 		} catch (RecordStoreNotOpenException e) {
 			e.printStackTrace();
@@ -127,6 +164,18 @@ public class ListaKontaktow extends List implements CommandListener {
 		}
 	}
 	
+	private void wyswietlRozmiar() {
+		try {
+			int s = MojMidlet1.magazyn.getSize();
+			System.out.println(s);
+		} catch (RecordStoreNotOpenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+
 	public void commandAction(Command komenda, Displayable elemEkranu) {
 		if(komenda == powrot) {
 			wyswietlacz.setCurrent(ekranP);
