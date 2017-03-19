@@ -7,7 +7,7 @@ import javax.microedition.rms.RecordComparator;
  * 
  * @author Przemek
  *
- *Klasa KomparatorTekstu porownuje lancuchy znakow i segreguje je alfabetycznie
+ *Klasa KomparatorTekstu porownuje nazwy kontaktow i segreguje je alfabetycznie
  *
  */
 public class KomparatorTekstu implements RecordComparator {
