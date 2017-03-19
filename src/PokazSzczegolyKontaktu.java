@@ -18,7 +18,9 @@ public class PokazSzczegolyKontaktu extends Form implements CommandListener {
 	private Display wyswietlacz;
 	private Displayable ekranP;
 	private Command powrot; // wyczysc;
-	private StringItem naglowek, separator;
+	private StringItem nazwa_label, get_nazwa, nrTelefonu_label, get_nrTelefonu, nrAlternatywny_label, get_nrAlternatywny,
+						email_label, get_email, opis_label, get_opis, emotikona_label;
+	private ImageItem get_emotikona;
 	
 	Emotikony emotikony;
 	Kontakt kontakt;
@@ -36,9 +38,9 @@ public class PokazSzczegolyKontaktu extends Form implements CommandListener {
 
 		this.setCommandListener(this);
 		
-		wyswietlSzczegoly();
+		defineFormItems();
 		
-//		appendItems();
+		appendItems();
 	}
 	
 	private void createCommands() {
@@ -51,19 +53,45 @@ public class PokazSzczegolyKontaktu extends Form implements CommandListener {
 //		this.addCommand(wyczysc);
 	}
 	
-	private void wyswietlSzczegoly() {
-		this.append(new StringItem(null, "Nazwa:", Item.LAYOUT_LEFT));
-		this.append(new StringItem(null, kontakt.getNazwa(), Item.LAYOUT_CENTER));
-		this.append(new StringItem(null, "Numer Telefonu:", Item.LAYOUT_LEFT));
-		this.append(new StringItem(null, kontakt.getNrTelefonu(), Item.LAYOUT_CENTER));
-		this.append(new StringItem(null, "Numer Alternatywny:", Item.LAYOUT_LEFT));
-		this.append(new StringItem(null, kontakt.getNrAlternatywny(), Item.LAYOUT_CENTER));
-		this.append(new StringItem(null, "E-mail:", Item.LAYOUT_LEFT));
-		this.append(new StringItem(null, kontakt.getEmail(), Item.LAYOUT_CENTER));
-		this.append(new StringItem(null, "Opis:", Item.LAYOUT_LEFT));
-		this.append(new StringItem(null, kontakt.getOpis(), Item.LAYOUT_CENTER));
-		this.append(new StringItem(null, "Emotikona:", Item.LAYOUT_LEFT));
-		this.append(new ImageItem(null, zaladujEmote(), Item.LAYOUT_CENTER, null));
+	private void defineFormItems() {
+		nazwa_label = new StringItem(null, "Nazwa:");
+		get_nazwa = new StringItem(null, kontakt.getNazwa());
+		nrTelefonu_label = new StringItem(null, "Numer Telefonu:");
+		get_nrTelefonu = new StringItem(null, kontakt.getNrTelefonu());
+		nrAlternatywny_label = new StringItem(null, "Numer Alternatywny:");
+		get_nrAlternatywny = new StringItem(null, kontakt.getNrAlternatywny());
+		email_label = new StringItem(null, "E-mail:");
+		get_email = new StringItem(null, kontakt.getEmail());
+		opis_label = new StringItem(null, "Opis:");
+		get_opis = new StringItem(null, kontakt.getOpis());
+		emotikona_label = new StringItem(null, "Emotikona:");
+		get_emotikona = new ImageItem(null, zaladujEmote(), ImageItem.LAYOUT_CENTER, null);
+	}
+	
+	private void appendItems() {
+		this.append(nazwa_label);
+		nazwa_label.setLayout(Item.LAYOUT_LEFT);
+		this.append(get_nazwa);
+		get_nazwa.setLayout(Item.LAYOUT_CENTER);
+		this.append(nrTelefonu_label);
+		nrTelefonu_label.setLayout(Item.LAYOUT_LEFT);
+		this.append(get_nrTelefonu);
+		get_nrTelefonu.setLayout(Item.LAYOUT_CENTER);
+		this.append(nrAlternatywny_label);
+		nrAlternatywny_label.setLayout(Item.LAYOUT_LEFT);
+		this.append(get_nrAlternatywny);
+		get_nrAlternatywny.setLayout(Item.LAYOUT_CENTER);
+		this.append(email_label);
+		email_label.setLayout(Item.LAYOUT_LEFT);
+		this.append(get_email);
+		get_email.setLayout(Item.LAYOUT_CENTER);
+		this.append(opis_label);
+		opis_label.setLayout(Item.LAYOUT_LEFT);
+		this.append(get_opis);
+		get_opis.setLayout(Item.LAYOUT_CENTER);
+		this.append(emotikona_label);
+		emotikona_label.setLayout(Item.LAYOUT_LEFT);
+		this.append(get_emotikona);
 	}
 
 	private Image zaladujEmote() {

@@ -24,6 +24,8 @@ public class ListaKontaktow extends List implements CommandListener {
 	private Vector kontakty;
 	
 	Emotikony emoty;
+	
+	PokazSzczegolyKontaktu szczegolyKontaktu;
 
 	public ListaKontaktow(Displayable ekranPowrotny) {
 		super("Twoja Lista Kontaktow", List.EXCLUSIVE);
@@ -131,13 +133,18 @@ public class ListaKontaktow extends List implements CommandListener {
 			e.printStackTrace();
 		}
 	}
+	
+	private Kontakt getSelectedKontakt() {
+		return (Kontakt)kontakty.elementAt(this.getSelectedIndex());
+	}
 
 
 	public void commandAction(Command komenda, Displayable elemEkranu) {
 		if(komenda == powrot) {
 			wyswietlacz.setCurrent(ekranP);
 		} else if(komenda == wybierz) {
-
+			szczegolyKontaktu = new PokazSzczegolyKontaktu(getSelectedKontakt(), this);
+			wyswietlacz.setCurrent(szczegolyKontaktu);
 		} else if(komenda == usun) {
 
 		} else if(komenda == usun_wszystkie) {
