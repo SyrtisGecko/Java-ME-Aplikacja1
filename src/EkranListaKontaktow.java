@@ -15,7 +15,7 @@ import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreNotOpenException;
 
-public class ListaKontaktow extends List implements CommandListener {
+public class EkranListaKontaktow extends List implements CommandListener {
 	
 	private Display wyswietlacz;
 	private Displayable ekranP;
@@ -27,7 +27,7 @@ public class ListaKontaktow extends List implements CommandListener {
 	
 	PokazSzczegolyKontaktu szczegolyKontaktu;
 
-	public ListaKontaktow(Displayable ekranPowrotny) {
+	public EkranListaKontaktow(Displayable ekranPowrotny) {
 		super("Twoja Lista Kontaktow", List.EXCLUSIVE);
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
@@ -109,26 +109,16 @@ public class ListaKontaktow extends List implements CommandListener {
 	}
 	
 	private void wyczyscMagazyn() {
-//		RecordEnumeration iterator;
 		System.out.println("wyczyscMagazyn()");
 		try {
-//			iterator = MojMidlet1.magazyn.enumerateRecords(null, null, false);
 			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
 			MojMidlet1.magazyn.closeRecordStore();
 			RecordStore.deleteRecordStore("Wpisy");
 			MojMidlet1.magazyn = RecordStore.openRecordStore("Wpisy", true, RecordStore.AUTHMODE_PRIVATE, false);
 			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
 			
-//			while(iterator.hasNextElement()) {
-//				int i = iterator.nextRecordId();
-////				byte[] rekord = iterator.nextRecord();
-//				MojMidlet1.magazyn.deleteRecord(i);
-//				System.out.println("wyczyscMagazyn().rekord " + i);
-//			}
 		} catch (RecordStoreNotOpenException e) {
 			e.printStackTrace();
-//		} catch (InvalidRecordIDException e) {
-//			e.printStackTrace();
 		} catch (RecordStoreException e) {
 			e.printStackTrace();
 		}

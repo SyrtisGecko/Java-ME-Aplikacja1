@@ -81,7 +81,7 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 //		okno3 = (TextBox) new Ekran3(tb);
 		dodajKontaktForm = new EkranDodajKontakt(tb);
 //		String[] str = {"Kontakt_1", "Kontakt_2", "Kontakt_3"};
-		listaKontaktow = new ListaKontaktow(tb);
+		listaKontaktow = new EkranListaKontaktow(tb);
 	}
 
 
@@ -161,8 +161,8 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 			wyswietlacz.setCurrent(dodajKontaktForm);
 		} else if(komenda == wyswietl_liste) {
 			wyswietlacz.setCurrent(listaKontaktow);
-			((ListaKontaktow) listaKontaktow).zaladujKontakty();
-			((ListaKontaktow) listaKontaktow).wyswietlKontakty();
+			((EkranListaKontaktow) listaKontaktow).zaladujKontakty();
+			((EkranListaKontaktow) listaKontaktow).wyswietlKontakty();
 		}
 		
 	}
