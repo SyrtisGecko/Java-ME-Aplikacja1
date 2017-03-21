@@ -79,7 +79,7 @@ public class EkranListaKontaktow extends List implements CommandListener {
 			szczegolyKontaktu = new PokazSzczegolyKontaktu(getSelectedKontakt(), this);
 			wyswietlacz.setCurrent(szczegolyKontaktu);
 		} else if(komenda == usun) {
-
+			listaKontaktow.usunKontakt(this.getSelectedIndex());
 		} else if(komenda == usun_wszystkie) {
 			usunWszystkoPopUp();
 		} else if(komenda == tak) {

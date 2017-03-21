@@ -50,14 +50,17 @@ public class ListaKontaktow {
 			iterator = magazyn.enumerateRecords(null, new KomparatorTekstu(), false);
 			
 			while(iterator.hasNextElement()) {
+//				System.out.println("Next RecordStoreID: " + iterator.nextRecordId());iterator.
+//				System.out.println()
 				byte[] rekord = iterator.nextRecord();
-				String Tekst = new String(rekord);
-				System.out.println(Tekst);
+//				String Tekst = new String(rekord);
+//				System.out.println(Tekst);
 				ByteArrayInputStream str_b = new ByteArrayInputStream(rekord);
 				DataInputStream str_wej = new DataInputStream(str_b);
 				
 				try {
-					Kontakt kontakt = new Kontakt(str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF());
+					Kontakt kontakt = new Kontakt(str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), 
+													str_wej.readUTF(), str_wej.readUTF(), str_wej.readInt());
 					kontakty.addElement(kontakt);
 					System.out.print("Dodano do wektora: ");
 					kontakt.wyswietl();
@@ -87,6 +90,34 @@ public class ListaKontaktow {
 			e.printStackTrace();
 		}
 		zaladujKontakty();
+	}
+	
+	public void usunKontakt(int i) {
+		System.out.println("Kontakt do usuniecia: " + i + " - " + ((Kontakt)kontakty.elementAt(i)).getNazwa());
+		RecordEnumeration iter;
+		try {
+			iter = magazyn.enumerateRecords(null, new KomparatorTekstu(), false);
+			
+			for(int k = 0; k < i; k++) {
+				byte[] rekord = iter.nextRecord();
+			}
+						
+				byte[] rekord = iter.nextRecord();
+				ByteArrayInputStream str_b = new ByteArrayInputStream(rekord);
+				DataInputStream str_wej = new DataInputStream(str_b);
+				
+				try {
+					System.out.println("Usuwany kontakt: " + str_wej.readUTF());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+			
+		} catch (RecordStoreException ex) {
+			ex.printStackTrace();
+		} catch (NullPointerException e) {
+			System.out.println("Magazyn pusty");
+		}
 	}
 	
 	public int getSize() {

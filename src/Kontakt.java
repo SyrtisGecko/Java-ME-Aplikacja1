@@ -7,15 +7,17 @@ public class Kontakt {
 	private String email = "";
 	private String opis = "";
 	private String emotikona = "0";
+	private int id = 0;
 	
 	
-	public Kontakt(String nazwa, String nrTelefonu, String nrAlternatywny, String email, String opis, String emotikona) {
+	public Kontakt(String nazwa, String nrTelefonu, String nrAlternatywny, String email, String opis, String emotikona, int id) {
 		this.setNazwa(nazwa);
 		this.setNrTelefonu(nrTelefonu);
 		this.setNrAlternatywny(nrAlternatywny);
 		this.setEmail(email);
 		this.setOpis(opis);
 		this.setEmotikona(emotikona);
+		this.id = id;
 	}
 
 	public String getNazwa() {
@@ -65,11 +67,15 @@ public class Kontakt {
 	public void setEmotikona(String emotikona) {
 		this.emotikona = emotikona;
 	}
+	
+	public int getID() {
+		return id;
+	}
 
 	
 	//------------
 	public void wyswietl() {
-		System.out.println(getNazwa() + " " + getNrTelefonu() + " Emot: " + getEmotikona());
+		System.out.println(getID() + " " + getNazwa() + " " + getNrTelefonu() + " Emot: " + getEmotikona());
 	}
 
 }

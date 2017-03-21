@@ -109,6 +109,7 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 			str_wyj.writeUTF(kontakt.getEmail());
 			str_wyj.writeUTF(kontakt.getOpis());
 			str_wyj.writeUTF(kontakt.getEmotikona());
+			str_wyj.writeInt(kontakt.getID());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -141,7 +142,15 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 				nieprawidlowyKontaktPopUp();
 				
 			} else {
-				kontakt = new Kontakt(nazwaText.getString(), numerTelefonu.getString(), numerAlternatywny.getString(), email.getString(), opis.getString(), emotikony.getStringIndex(wyborEmotikony.getImage(wyborEmotikony.getSelectedIndex())));
+				try {
+					kontakt = new Kontakt(nazwaText.getString(), numerTelefonu.getString(), 
+										  numerAlternatywny.getString(), email.getString(), opis.getString(), 
+										  emotikony.getStringIndex(wyborEmotikony.getImage(wyborEmotikony.getSelectedIndex())),
+										  listaKontaktow.magazyn.getNextRecordID());
+				} catch (RecordStoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				kontakt.wyswietl();
 				zapiszKontakt();
 				nowyKontaktPopUp();
