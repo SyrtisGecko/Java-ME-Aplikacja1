@@ -20,17 +20,19 @@ public class EkranListaKontaktow extends List implements CommandListener {
 	private Display wyswietlacz;
 	private Displayable ekranP;
 	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie;
-	private RecordEnumeration iterator;
-	private Vector kontakty;
+//	private RecordEnumeration iterator;
+//	private Vector kontakty;
+	ListaKontaktow listaKontaktow;
 	
 	Emotikony emoty;
 	
 	PokazSzczegolyKontaktu szczegolyKontaktu;
 
-	public EkranListaKontaktow(Displayable ekranPowrotny) {
+	public EkranListaKontaktow(Displayable ekranPowrotny, ListaKontaktow listaKontaktow) {
 		super("Twoja Lista Kontaktow", List.EXCLUSIVE);
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
+		this.listaKontaktow = listaKontaktow;
 		emoty = new Emotikony();
 		
 		createCommands();
@@ -42,42 +44,42 @@ public class EkranListaKontaktow extends List implements CommandListener {
 	}
 	
 
-	protected void zaladujKontakty() {
-		kontakty = new Vector();
-
-		try {
-			iterator = MojMidlet1.magazyn.enumerateRecords(null, new KomparatorTekstu(), false);
-			
-			while(iterator.hasNextElement()) {
-				byte[] rekord = iterator.nextRecord();
-				String Tekst = new String(rekord);
-				System.out.println(Tekst);
-				ByteArrayInputStream str_b = new ByteArrayInputStream(rekord);
-				DataInputStream str_wej = new DataInputStream(str_b);
-				
-				try {
-					Kontakt kontakt = new Kontakt(str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF());
-					kontakty.addElement(kontakt);
-					System.out.print("Dodano do wektora: ");
-					kontakt.wyswietl();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (RecordStoreException ex) {
-			ex.printStackTrace();
-		} catch (NullPointerException e) {
-			System.out.println("Magazyn pusty");
-		}
-}
+//	protected void zaladujKontakty() {
+//		kontakty = new Vector();
+//
+//		try {
+//			iterator = MojMidlet1.magazyn.enumerateRecords(null, new KomparatorTekstu(), false);
+//			
+//			while(iterator.hasNextElement()) {
+//				byte[] rekord = iterator.nextRecord();
+//				String Tekst = new String(rekord);
+//				System.out.println(Tekst);
+//				ByteArrayInputStream str_b = new ByteArrayInputStream(rekord);
+//				DataInputStream str_wej = new DataInputStream(str_b);
+//				
+//				try {
+//					Kontakt kontakt = new Kontakt(str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF());
+//					kontakty.addElement(kontakt);
+//					System.out.print("Dodano do wektora: ");
+//					kontakt.wyswietl();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		} catch (RecordStoreException ex) {
+//			ex.printStackTrace();
+//		} catch (NullPointerException e) {
+//			System.out.println("Magazyn pusty");
+//		}
+//	}
 
 
 	protected void wyswietlKontakty() {
 		this.deleteAll();
 		
-		for(int i = 0; i < kontakty.size(); i++) {
-			this.append(((Kontakt) kontakty.elementAt(i)).getNazwa(), 
-							emoty.getEmot(Integer.parseInt(((Kontakt)kontakty.elementAt(i)).getEmotikona())));
+		for(int i = 0; i < listaKontaktow.getSize(); i++) {
+			this.append(listaKontaktow.getNazwaKontaktu(i), 
+						listaKontaktow.getEmotikonaKontaktu(i));
 		}
 	}
 
@@ -108,24 +110,24 @@ public class EkranListaKontaktow extends List implements CommandListener {
 		
 	}
 	
-	private void wyczyscMagazyn() {
-		System.out.println("wyczyscMagazyn()");
-		try {
-			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
-			MojMidlet1.magazyn.closeRecordStore();
-			RecordStore.deleteRecordStore("Wpisy");
-			MojMidlet1.magazyn = RecordStore.openRecordStore("Wpisy", true, RecordStore.AUTHMODE_PRIVATE, false);
-			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
-			
-		} catch (RecordStoreNotOpenException e) {
-			e.printStackTrace();
-		} catch (RecordStoreException e) {
-			e.printStackTrace();
-		}
-	}
+//	private void wyczyscMagazyn() {
+//		System.out.println("wyczyscMagazyn()");
+//		try {
+//			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
+//			MojMidlet1.magazyn.closeRecordStore();
+//			RecordStore.deleteRecordStore("Wpisy");
+//			MojMidlet1.magazyn = RecordStore.openRecordStore("Wpisy", true, RecordStore.AUTHMODE_PRIVATE, false);
+//			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
+//			
+//		} catch (RecordStoreNotOpenException e) {
+//			e.printStackTrace();
+//		} catch (RecordStoreException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	private Kontakt getSelectedKontakt() {
-		return (Kontakt)kontakty.elementAt(this.getSelectedIndex());
+		return listaKontaktow.getSelectedKontakt(this.getSelectedIndex());
 	}
 
 
@@ -141,7 +143,7 @@ public class EkranListaKontaktow extends List implements CommandListener {
 			usunWszystkoPopUp();
 		} else if(komenda == tak) {
 			System.out.println("Wybrano TAK");
-			wyczyscMagazyn();
+			listaKontaktow.wyczyscMagazyn();
 			wyswietlacz.setCurrent(this);
 		} else if(komenda == nie) {
 			System.out.println("Wybrano NIE");

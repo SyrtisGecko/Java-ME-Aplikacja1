@@ -35,11 +35,12 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	private Command koniec, dodaj_kontakt, wyswietl_liste; //o2, wprowadz, wyswietl, ;
 	
 	// deklaracja magazynu przechowujacego zapisany tekst
-	public static RecordStore magazyn;
+//	public static RecordStore magazyn;
 
-	Form dodajKontaktForm;
-	List listaKontaktow;
+	Form ekranDodajKontaktForm;
+	List ekranListaKontaktow;
 	Image obr;
+	ListaKontaktow listaKontaktow;
 	
 //	List listaKontaktow;
 	
@@ -51,6 +52,8 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		tb = new Form("Moj Midlet1 - Lista kontaktow");
 		
 		displayImage();
+		
+		listaKontaktow = new ListaKontaktow();
 		
 		// tworzenie komend
 		createCommands();
@@ -79,9 +82,9 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	private void addScreens(Form tb) {
 //		okno2 = (TextBox) new Ekran2(tb);
 //		okno3 = (TextBox) new Ekran3(tb);
-		dodajKontaktForm = new EkranDodajKontakt(tb);
+		ekranDodajKontaktForm = new EkranDodajKontakt(tb, listaKontaktow);
 //		String[] str = {"Kontakt_1", "Kontakt_2", "Kontakt_3"};
-		listaKontaktow = new EkranListaKontaktow(tb);
+		ekranListaKontaktow = new EkranListaKontaktow(tb, listaKontaktow);
 	}
 
 
@@ -108,12 +111,13 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	protected void destroyApp(boolean unconditional) throws MIDletStateChangeException {
 		System.err.println("****Wywolano destroyApp****");
 		
-		try {
-			magazyn.closeRecordStore();
-		}
-		catch (RecordStoreException ex) {
-			ex.printStackTrace();
-		}
+		listaKontaktow.zamknijMagazyn();
+//		try {
+//			magazyn.closeRecordStore();
+//		}
+//		catch (RecordStoreException ex) {
+//			ex.printStackTrace();
+//		}
 
 	}
 
@@ -130,12 +134,14 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		// dodanie Listenera
 		tb.setCommandListener((CommandListener)this);
 		
-		try {
-			magazyn = RecordStore.openRecordStore("Wpisy", true, RecordStore.AUTHMODE_PRIVATE, false);
-		}
-		catch (RecordStoreException ex) {
-			ex.printStackTrace();
-		}
+		listaKontaktow.otworzMagazyn();
+		
+//		try {
+//			magazyn = RecordStore.openRecordStore("Wpisy", true, RecordStore.AUTHMODE_PRIVATE, false);
+//		}
+//		catch (RecordStoreException ex) {
+//			ex.printStackTrace();
+//		}
 	}
 	
 	
@@ -158,11 +164,11 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 //			wyswietlacz.setCurrent(okno2);
 //			((Ekran2) okno2).wyswietlCalyTekst();
 		} else if(komenda == dodaj_kontakt) {
-			wyswietlacz.setCurrent(dodajKontaktForm);
+			wyswietlacz.setCurrent(ekranDodajKontaktForm);
 		} else if(komenda == wyswietl_liste) {
-			wyswietlacz.setCurrent(listaKontaktow);
-			((EkranListaKontaktow) listaKontaktow).zaladujKontakty();
-			((EkranListaKontaktow) listaKontaktow).wyswietlKontakty();
+			wyswietlacz.setCurrent(ekranListaKontaktow);
+			listaKontaktow.zaladujKontakty();
+			((EkranListaKontaktow) ekranListaKontaktow).wyswietlKontakty();
 		}
 		
 	}

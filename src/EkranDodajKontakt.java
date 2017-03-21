@@ -25,14 +25,16 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 	private ChoiceGroup wyborEmotikony;
 	
 	Kontakt kontakt;
+	ListaKontaktow listaKontaktow;
 
 	Emotikony emotikony;
 	
-	public EkranDodajKontakt(Displayable ekranPowrotny) {
+	public EkranDodajKontakt(Displayable ekranPowrotny, ListaKontaktow listaKontaktow) {
 		super("Dodaj Kontakt");
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
 		emotikony = new Emotikony();
+		this.listaKontaktow = listaKontaktow;
 		
 		createCommands();
 		
