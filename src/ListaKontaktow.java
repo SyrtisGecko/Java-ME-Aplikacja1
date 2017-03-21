@@ -94,30 +94,40 @@ public class ListaKontaktow {
 	
 	public void usunKontakt(int i) {
 		System.out.println("Kontakt do usuniecia: " + i + " - " + ((Kontakt)kontakty.elementAt(i)).getNazwa());
-		RecordEnumeration iter;
+		
 		try {
-			iter = magazyn.enumerateRecords(null, new KomparatorTekstu(), false);
-			
-			for(int k = 0; k < i; k++) {
-				byte[] rekord = iter.nextRecord();
-			}
-						
-				byte[] rekord = iter.nextRecord();
-				ByteArrayInputStream str_b = new ByteArrayInputStream(rekord);
-				DataInputStream str_wej = new DataInputStream(str_b);
-				
-				try {
-					System.out.println("Usuwany kontakt: " + str_wej.readUTF());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				
-			
-		} catch (RecordStoreException ex) {
-			ex.printStackTrace();
-		} catch (NullPointerException e) {
-			System.out.println("Magazyn pusty");
+			magazyn.deleteRecord(((Kontakt)kontakty.elementAt(i)).getID());
+		} catch (RecordStoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		kontakty.removeElementAt(i);
+		
+//		RecordEnumeration iter;
+//		try {
+//			iter = magazyn.enumerateRecords(null, new KomparatorTekstu(), false);
+//			
+//			for(int k = 0; k < i; k++) {
+//				byte[] rekord = iter.nextRecord();
+//			}
+//						
+//				byte[] rekord = iter.nextRecord();
+//				ByteArrayInputStream str_b = new ByteArrayInputStream(rekord);
+//				DataInputStream str_wej = new DataInputStream(str_b);
+//				
+//				try {
+//					System.out.println("Usuwany kontakt: " + str_wej.readUTF());
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}
+//				
+//			
+//		} catch (RecordStoreException ex) {
+//			ex.printStackTrace();
+//		} catch (NullPointerException e) {
+//			System.out.println("Magazyn pusty");
+//		}
 	}
 	
 	public int getSize() {
