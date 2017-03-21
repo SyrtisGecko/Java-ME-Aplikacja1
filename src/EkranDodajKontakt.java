@@ -117,7 +117,7 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		String Tekst = new String(rekord);
 		System.out.println(Tekst);
 		try {
-			MojMidlet1.magazyn.addRecord(rekord, 0, rekord.length);
+			listaKontaktow.magazyn.addRecord(rekord, 0, rekord.length);
 		} catch (RecordStoreException e) {
 			e.printStackTrace();
 		}
@@ -147,16 +147,6 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 				nowyKontaktPopUp();
 				wyczyscPola();
 			}
-			
-//			byte[] rekord = this.getString().getBytes();
-//			if(rekord.length > 0)
-//				try {
-//					MojMidlet1.magazyn.addRecord(rekord, 0, rekord.length);
-//					this.setString("...zapisane");
-//				} catch (RecordStoreException ex) {
-//					ex.printStackTrace();
-//				}
-//			else this.setString("...nic nie zapisano");
 		} else if(komenda == wyczysc) {
 			wyczyscPola();
 		}

@@ -10,8 +10,6 @@ import javax.microedition.lcdui.ImageItem;
 import javax.microedition.lcdui.List;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
-import javax.microedition.rms.RecordStore;
-import javax.microedition.rms.RecordStoreException;
 
 /*****
  * 
@@ -28,21 +26,14 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	// deklaracja zmiennej wyswietlacza
 	private static Display wyswietlacz;
 	
-	// deklaracja zmiennych TextBox
-	Form tb; // okno2, okno3;
-	
 	// deklaracja zmiennych dla komend
-	private Command koniec, dodaj_kontakt, wyswietl_liste; //o2, wprowadz, wyswietl, ;
-	
-	// deklaracja magazynu przechowujacego zapisany tekst
-//	public static RecordStore magazyn;
+	private Command koniec, dodaj_kontakt, wyswietl_liste;
 
 	Form ekranDodajKontaktForm;
+	Form tb; 
 	List ekranListaKontaktow;
 	Image obr;
 	ListaKontaktow listaKontaktow;
-	
-//	List listaKontaktow;
 	
 	
 	public MojMidlet1() {
@@ -80,10 +71,7 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 
 
 	private void addScreens(Form tb) {
-//		okno2 = (TextBox) new Ekran2(tb);
-//		okno3 = (TextBox) new Ekran3(tb);
 		ekranDodajKontaktForm = new EkranDodajKontakt(tb, listaKontaktow);
-//		String[] str = {"Kontakt_1", "Kontakt_2", "Kontakt_3"};
 		ekranListaKontaktow = new EkranListaKontaktow(tb, listaKontaktow);
 	}
 
@@ -91,18 +79,12 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 
 	private void createCommands() {
 		koniec = new Command("Koniec", Command.EXIT, 1);
-//		o2 = new Command("Okno_2", Command.SCREEN, 1);
-//		wprowadz = new Command("Wprowadz dane", Command.ITEM, 1);
-//		wyswietl = new Command("Wyswietl dane", Command.ITEM, 1);
 		dodaj_kontakt = new Command("Dodaj Kontakt", Command.ITEM, 1);
 		wyswietl_liste = new Command("Wyswietl liste", Command.ITEM, 1);
 		
 	}
 	
 	private void addCommands(Displayable d) {
-//		d.addCommand(o2);
-//		d.addCommand(wprowadz);
-//		d.addCommand(wyswietl);
 		d.addCommand(koniec);
 		d.addCommand(dodaj_kontakt);
 		d.addCommand(wyswietl_liste);
@@ -112,13 +94,6 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		System.err.println("****Wywolano destroyApp****");
 		
 		listaKontaktow.zamknijMagazyn();
-//		try {
-//			magazyn.closeRecordStore();
-//		}
-//		catch (RecordStoreException ex) {
-//			ex.printStackTrace();
-//		}
-
 	}
 
 	protected void pauseApp() {
@@ -135,13 +110,6 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		tb.setCommandListener((CommandListener)this);
 		
 		listaKontaktow.otworzMagazyn();
-		
-//		try {
-//			magazyn = RecordStore.openRecordStore("Wpisy", true, RecordStore.AUTHMODE_PRIVATE, false);
-//		}
-//		catch (RecordStoreException ex) {
-//			ex.printStackTrace();
-//		}
 	}
 	
 	
@@ -156,13 +124,6 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 			}
 			// zawiadom platforme
 			notifyDestroyed();
-//		} else if(komenda == o2) {
-//			wyswietlacz.setCurrent(okno2);
-//		} else if(komenda == wprowadz) {
-//			wyswietlacz.setCurrent(okno3);
-//		} else if(komenda == wyswietl) {
-//			wyswietlacz.setCurrent(okno2);
-//			((Ekran2) okno2).wyswietlCalyTekst();
 		} else if(komenda == dodaj_kontakt) {
 			wyswietlacz.setCurrent(ekranDodajKontaktForm);
 		} else if(komenda == wyswietl_liste) {

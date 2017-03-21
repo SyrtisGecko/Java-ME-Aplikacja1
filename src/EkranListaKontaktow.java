@@ -1,8 +1,3 @@
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.util.Vector;
-
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Command;
@@ -10,18 +5,12 @@ import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.List;
-import javax.microedition.rms.RecordEnumeration;
-import javax.microedition.rms.RecordStore;
-import javax.microedition.rms.RecordStoreException;
-import javax.microedition.rms.RecordStoreNotOpenException;
 
 public class EkranListaKontaktow extends List implements CommandListener {
 	
 	private Display wyswietlacz;
 	private Displayable ekranP;
 	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie;
-//	private RecordEnumeration iterator;
-//	private Vector kontakty;
 	ListaKontaktow listaKontaktow;
 	
 	Emotikony emoty;
@@ -39,39 +28,8 @@ public class EkranListaKontaktow extends List implements CommandListener {
 		
 		addCommands();
 		
-		this.setCommandListener(this);
-		
+		this.setCommandListener(this);		
 	}
-	
-
-//	protected void zaladujKontakty() {
-//		kontakty = new Vector();
-//
-//		try {
-//			iterator = MojMidlet1.magazyn.enumerateRecords(null, new KomparatorTekstu(), false);
-//			
-//			while(iterator.hasNextElement()) {
-//				byte[] rekord = iterator.nextRecord();
-//				String Tekst = new String(rekord);
-//				System.out.println(Tekst);
-//				ByteArrayInputStream str_b = new ByteArrayInputStream(rekord);
-//				DataInputStream str_wej = new DataInputStream(str_b);
-//				
-//				try {
-//					Kontakt kontakt = new Kontakt(str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF(), str_wej.readUTF());
-//					kontakty.addElement(kontakt);
-//					System.out.print("Dodano do wektora: ");
-//					kontakt.wyswietl();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		} catch (RecordStoreException ex) {
-//			ex.printStackTrace();
-//		} catch (NullPointerException e) {
-//			System.out.println("Magazyn pusty");
-//		}
-//	}
 
 
 	protected void wyswietlKontakty() {
@@ -106,25 +64,8 @@ public class EkranListaKontaktow extends List implements CommandListener {
 		usunWszystkoAlert.addCommand(nie);
 		usunWszystkoAlert.setCommandListener(this);
 		
-		wyswietlacz.setCurrent(usunWszystkoAlert);
-		
+		wyswietlacz.setCurrent(usunWszystkoAlert);	
 	}
-	
-//	private void wyczyscMagazyn() {
-//		System.out.println("wyczyscMagazyn()");
-//		try {
-//			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
-//			MojMidlet1.magazyn.closeRecordStore();
-//			RecordStore.deleteRecordStore("Wpisy");
-//			MojMidlet1.magazyn = RecordStore.openRecordStore("Wpisy", true, RecordStore.AUTHMODE_PRIVATE, false);
-//			System.out.println("ID " + MojMidlet1.magazyn.getNextRecordID());
-//			
-//		} catch (RecordStoreNotOpenException e) {
-//			e.printStackTrace();
-//		} catch (RecordStoreException e) {
-//			e.printStackTrace();
-//		}
-//	}
 	
 	private Kontakt getSelectedKontakt() {
 		return listaKontaktow.getSelectedKontakt(this.getSelectedIndex());
@@ -144,6 +85,7 @@ public class EkranListaKontaktow extends List implements CommandListener {
 		} else if(komenda == tak) {
 			System.out.println("Wybrano TAK");
 			listaKontaktow.wyczyscMagazyn();
+			wyswietlKontakty();
 			wyswietlacz.setCurrent(this);
 		} else if(komenda == nie) {
 			System.out.println("Wybrano NIE");

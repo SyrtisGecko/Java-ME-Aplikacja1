@@ -1,7 +1,3 @@
-import java.io.IOException;
-
-import javax.microedition.lcdui.Choice;
-import javax.microedition.lcdui.ChoiceGroup;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
@@ -11,7 +7,6 @@ import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.ImageItem;
 import javax.microedition.lcdui.Item;
 import javax.microedition.lcdui.StringItem;
-import javax.microedition.lcdui.TextField;
 
 public class PokazSzczegolyKontaktu extends Form implements CommandListener {
 	

@@ -86,6 +86,7 @@ public class ListaKontaktow {
 		} catch (RecordStoreException e) {
 			e.printStackTrace();
 		}
+		zaladujKontakty();
 	}
 	
 	public int getSize() {
