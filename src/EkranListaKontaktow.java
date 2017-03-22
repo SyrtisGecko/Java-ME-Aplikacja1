@@ -15,7 +15,7 @@ public class EkranListaKontaktow extends List implements CommandListener {
 	
 	Emotikony emoty;
 	
-	PokazSzczegolyKontaktu szczegolyKontaktu;
+	EkranPokazSzczegolyKontaktu szczegolyKontaktu;
 
 	public EkranListaKontaktow(Displayable ekranPowrotny, ListaKontaktow listaKontaktow) {
 		super("Twoja Lista Kontaktow", List.EXCLUSIVE);
@@ -76,7 +76,7 @@ public class EkranListaKontaktow extends List implements CommandListener {
 		if(komenda == powrot) {
 			wyswietlacz.setCurrent(ekranP);
 		} else if(komenda == wybierz) {
-			szczegolyKontaktu = new PokazSzczegolyKontaktu(getSelectedKontakt(), this);
+			szczegolyKontaktu = new EkranPokazSzczegolyKontaktu(getSelectedKontakt(), this);
 			wyswietlacz.setCurrent(szczegolyKontaktu);
 		} else if(komenda == usun) {
 			listaKontaktow.usunKontakt(this.getSelectedIndex());

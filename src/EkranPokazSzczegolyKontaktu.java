@@ -8,11 +8,11 @@ import javax.microedition.lcdui.ImageItem;
 import javax.microedition.lcdui.Item;
 import javax.microedition.lcdui.StringItem;
 
-public class PokazSzczegolyKontaktu extends Form implements CommandListener {
+public class EkranPokazSzczegolyKontaktu extends Form implements CommandListener {
 	
 	private Display wyswietlacz;
 	private Displayable ekranP;
-	private Command powrot; // wyczysc;
+	private Command powrot;
 	private StringItem nazwa_label, get_nazwa, nrTelefonu_label, get_nrTelefonu, nrAlternatywny_label, get_nrAlternatywny,
 						email_label, get_email, opis_label, get_opis, emotikona_label;
 	private ImageItem get_emotikona;
@@ -20,7 +20,7 @@ public class PokazSzczegolyKontaktu extends Form implements CommandListener {
 	Emotikony emotikony;
 	Kontakt kontakt;
 	
-	public PokazSzczegolyKontaktu(Kontakt kontakt, Displayable ekranPowrotny) {
+	public EkranPokazSzczegolyKontaktu(Kontakt kontakt, Displayable ekranPowrotny) {
 		super("Szczegoly Kontaktu");
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
@@ -40,12 +40,10 @@ public class PokazSzczegolyKontaktu extends Form implements CommandListener {
 	
 	private void createCommands() {
 		powrot = new Command("Powrot", Command.BACK, 1);
-//		wyczysc = new Command("Wyczysc", Command.ITEM, 1);
 	}
 	
 	private void addCommands() {
 		this.addCommand(powrot);
-//		this.addCommand(wyczysc);
 	}
 	
 	private void defineFormItems() {
