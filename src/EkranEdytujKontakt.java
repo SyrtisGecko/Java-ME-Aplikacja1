@@ -15,11 +15,11 @@ import javax.microedition.lcdui.StringItem;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.rms.RecordStoreException;
 
-public class EkranDodajKontakt extends Form implements CommandListener {
-	
+public class EkranEdytujKontakt extends Form implements CommandListener {
+
 	private Display wyswietlacz;
 	private Displayable ekranP;
-	private Command powrot, zapisz, wyczysc;
+	private Command powrot, zapisz;
 	private TextField nazwaText, numerTelefonu, numerAlternatywny, opis, email;
 	private StringItem naglowek, separator;
 	private ChoiceGroup wyborEmotikony;
@@ -29,12 +29,13 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 
 	Emotikony emotikony;
 	
-	public EkranDodajKontakt(Displayable ekranPowrotny, ListaKontaktow listaKontaktow) {
-		super("Dodaj Kontakt");
+	public EkranEdytujKontakt(Displayable ekranPowrotny, ListaKontaktow listaKontaktow, Kontakt kontakt) {
+		super("Edytuj Kontakt");
 		wyswietlacz = MojMidlet1.mojDisplay();
 		ekranP = ekranPowrotny;
 		emotikony = new Emotikony();
 		this.listaKontaktow = listaKontaktow;
+		this.kontakt = kontakt;
 		
 		createCommands();
 		
@@ -51,24 +52,23 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 	private void addCommands() {
 		this.addCommand(powrot);
 		this.addCommand(zapisz);
-		this.addCommand(wyczysc);
 	}
 
 	private void createCommands() {
 		powrot = new Command("Powrot", Command.BACK, 1);		
 		zapisz = new Command("Zapisz", Command.ITEM, 1);
-		wyczysc = new Command("Wyczysc", Command.ITEM, 1);
 	}
 
 	private void defineFormItems() {
-		naglowek = new StringItem(null, "Dodawanie nowego kontaktu");
+		naglowek = new StringItem(null, "Edytowanie kontaktu");
 		separator = new StringItem(null, "----------------------------------");
-		nazwaText = new TextField("Nazwa:", "", 20, TextField.ANY);
-		numerTelefonu = new TextField("Numer telefonu:", "", 16, TextField.PHONENUMBER);
-		numerAlternatywny = new TextField("Numer alternatywny:", "", 16, TextField.PHONENUMBER);
-		email = new TextField("Adres e-mail:", "", 30, TextField.EMAILADDR);
-		opis = new TextField("Opis:", "", 100, TextField.ANY);
+		nazwaText = new TextField("Nazwa:", kontakt.getNazwa(), 20, TextField.ANY);
+		numerTelefonu = new TextField("Numer telefonu:", kontakt.getNrTelefonu(), 16, TextField.PHONENUMBER);
+		numerAlternatywny = new TextField("Numer alternatywny:", kontakt.getNrAlternatywny(), 16, TextField.PHONENUMBER);
+		email = new TextField("Adres e-mail:", kontakt.getEmail(), 30, TextField.EMAILADDR);
+		opis = new TextField("Opis:", kontakt.getOpis(), 100, TextField.ANY);
 		wyborEmotikony = new ChoiceGroup("Wybierz emotikone:", Choice.EXCLUSIVE, pustyString(emotikony.getSize()), emotikony.getArrayOfEmots());	
+		wyborEmotikony.setSelectedIndex(Integer.parseInt(kontakt.getEmotikona()), true);
 	}
 
 	private String[] pustyString(int size) {
@@ -76,7 +76,6 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		for(int i = 0; i < size; i++) {
 			str[i] = "";
 		}
-		System.out.println(str.length);
 		return str;
 	}
 
@@ -89,14 +88,6 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		this.append(email);
 		this.append(opis);
 		this.append(wyborEmotikony);		
-	}
-	
-	private void wyczyscPola() {
-		nazwaText.setString("");
-		numerTelefonu.setString("");
-		numerAlternatywny.setString("");
-		email.setString("");
-		opis.setString("");
 	}
 	
 	private void zapiszKontakt() {
@@ -118,7 +109,7 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		String Tekst = new String(rekord);
 		System.out.println(Tekst);
 		try {
-			listaKontaktow.magazyn.addRecord(rekord, 0, rekord.length);
+			listaKontaktow.magazyn.setRecord(kontakt.getID(), rekord, 0, rekord.length);
 		} catch (RecordStoreException e) {
 			e.printStackTrace();
 		}
@@ -130,11 +121,22 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 		}
 		
 	}
+	
+	private void edytujKontakt() {
+		kontakt.setNazwa(nazwaText.getString());
+		kontakt.setNrTelefonu(numerTelefonu.getString());
+		kontakt.setNrAlternatywny(numerAlternatywny.getString());
+		kontakt.setEmail(email.getString());
+		kontakt.setOpis(opis.getString());
+		kontakt.setEmotikona(emotikony.getStringIndex(wyborEmotikony.getImage(wyborEmotikony.getSelectedIndex())));
+	}
+		
 
 	public void commandAction(Command komenda, Displayable elemEkranu) {
 		
 		if(komenda == powrot) {		
 			wyswietlacz.setCurrent(ekranP);
+			((EkranListaKontaktow) ekranP).wyswietlKontakty();
 			
 		} else if(komenda == zapisz) {
 			
@@ -142,29 +144,20 @@ public class EkranDodajKontakt extends Form implements CommandListener {
 				nieprawidlowyKontaktPopUp();
 				
 			} else {
-				try {
-					kontakt = new Kontakt(nazwaText.getString(), numerTelefonu.getString(), 
-										  numerAlternatywny.getString(), email.getString(), opis.getString(), 
-										  emotikony.getStringIndex(wyborEmotikony.getImage(wyborEmotikony.getSelectedIndex())),
-										  listaKontaktow.magazyn.getNextRecordID());
-				} catch (RecordStoreException e) {
-					e.printStackTrace();
-				}
+				edytujKontakt();
 				kontakt.wyswietl();
 				zapiszKontakt();
-				nowyKontaktPopUp();
-				wyczyscPola();
+				edytowanyKontaktPopUp();
+				listaKontaktow.zaladujKontakty();
 			}
-		} else if(komenda == wyczysc) {
-			wyczyscPola();
-		}
+		} 
 
 	}
 	
-	private void nowyKontaktPopUp() {
-		Alert nowyKontaktAlert = new Alert("Nowy kontakt", "\"" + nazwaText.getString() + "\" dodano do listy kontaktow.", null, AlertType.INFO);
-		nowyKontaktAlert.setTimeout(2500);
-		wyswietlacz.setCurrent(nowyKontaktAlert, this);
+	private void edytowanyKontaktPopUp() {
+		Alert edytowanyKontaktAlert = new Alert("Zedytowano kontakt", "\t\"" + nazwaText.getString() + "\".", null, AlertType.INFO);
+		edytowanyKontaktAlert.setTimeout(2500);
+		wyswietlacz.setCurrent(edytowanyKontaktAlert, this);
 	}
 	
 	private void nieprawidlowyKontaktPopUp() {

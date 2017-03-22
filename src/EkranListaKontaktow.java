@@ -10,12 +10,13 @@ public class EkranListaKontaktow extends List implements CommandListener {
 	
 	private Display wyswietlacz;
 	private Displayable ekranP;
-	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie;
+	private Command powrot, wybierz, usun, usun_wszystkie, tak, nie, edytuj;
 	ListaKontaktow listaKontaktow;
 	
 	Emotikony emoty;
 	
 	EkranPokazSzczegolyKontaktu szczegolyKontaktu;
+	EkranEdytujKontakt edytujKontakt;
 
 	public EkranListaKontaktow(Displayable ekranPowrotny, ListaKontaktow listaKontaktow) {
 		super("Twoja Lista Kontaktow", List.EXCLUSIVE);
@@ -49,6 +50,7 @@ public class EkranListaKontaktow extends List implements CommandListener {
 		usun_wszystkie = new Command("Usun wszystkie", Command.ITEM, 1);
 		tak = new Command("TAK", Command.OK, 1);
 		nie = new Command("NIE", Command.CANCEL, 1);
+		edytuj = new Command("Edytuj kontakt", Command.ITEM, 2);
 	}
 
 	private void addCommands() {
@@ -56,6 +58,7 @@ public class EkranListaKontaktow extends List implements CommandListener {
 		this.addCommand(wybierz);	
 		this.addCommand(usun);
 		this.addCommand(usun_wszystkie);
+		this.addCommand(edytuj);
 	}
 	
 	private void usunWszystkoPopUp() {
@@ -91,7 +94,10 @@ public class EkranListaKontaktow extends List implements CommandListener {
 		} else if(komenda == nie) {
 			System.out.println("Wybrano NIE");
 			wyswietlacz.setCurrent(this);
-		} 
+		} else if(komenda == edytuj) {
+			edytujKontakt = new EkranEdytujKontakt(this, listaKontaktow, getSelectedKontakt());
+			wyswietlacz.setCurrent(edytujKontakt);
+		}
 	}
 
 }
