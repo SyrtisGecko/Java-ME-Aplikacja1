@@ -29,6 +29,9 @@ public class KomparatorTekstu implements RecordComparator {
 			e.printStackTrace();
 		}
 		
+		arg1 = arg1.toLowerCase();
+		arg2 = arg2.toLowerCase();
+		
 		//relacja odpowiada porownaniu obu rekordow
 		int relacja = arg1.compareTo(arg2);
 		if(relacja < 0)
