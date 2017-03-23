@@ -21,6 +21,8 @@ import javax.microedition.midlet.MIDletStateChangeException;
  *
  */
 
+// TODO implement few other Comparators
+
 public class MojMidlet1 extends MIDlet implements CommandListener {
 	
 	// deklaracja zmiennej wyswietlacza
