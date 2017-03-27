@@ -8,6 +8,13 @@ import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreNotOpenException;
 
+/******
+ * 
+ * @author Przemek
+ *
+ * Klasa obslugujaca magazyn do przechowywania Zdarzen
+ *
+ */
 public class Terminarz {
 	public RecordStore magazynZdarzen;
 	private RecordEnumeration iterator;
@@ -18,6 +25,7 @@ public class Terminarz {
 
 	}
 	
+	// metoda otwierajaca magazyn
 	public void otworzMagazyn() {
 		try {
 			magazynZdarzen = RecordStore.openRecordStore("Zdarzenia", true, RecordStore.AUTHMODE_PRIVATE, false);
@@ -27,6 +35,7 @@ public class Terminarz {
 		}
 	}
 	
+	// metoda zamykajaca magazyn
 	public void zamknijMagazyn() {
 		try {
 			magazynZdarzen.closeRecordStore();
@@ -36,6 +45,7 @@ public class Terminarz {
 		}
 	}
 	
+	// laduje Zdarzenia z pamieci urzadzenia do wektora
 	protected void zaladujZdarzenia() {
 		zdarzenia = new Vector();
 
@@ -50,8 +60,6 @@ public class Terminarz {
 				try {
 					Zdarzenie zdarzenie = new Zdarzenie(str_wej.readInt(), str_wej.readInt(), str_wej.readInt(), str_wej.readUTF(), str_wej.readInt());
 					zdarzenia.addElement(zdarzenie);
-//					System.out.print("Dodano do wektora: ");
-//					zdarzenie.wyswietl();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -63,6 +71,7 @@ public class Terminarz {
 		}
 	}
 	
+	// usuwa wszystke rekordy z magazynu
 	protected void wyczyscMagazyn() {
 		try {
 			System.out.println("ID " + magazynZdarzen.getNextRecordID());
@@ -79,6 +88,7 @@ public class Terminarz {
 		zaladujZdarzenia();
 	}
 	
+	// usuwa wybrany rekord z magazynu
 	public void usunZdarzenie(int i) {
 		
 		try {
@@ -93,15 +103,7 @@ public class Terminarz {
 	public int getSize() {
 		return zdarzenia.size();
 	}
-//	
-//	public String getNazwaKontaktu(int i) {
-//		return ((Kontakt)zdarzenia.elementAt(i)).getNazwa();
-//	}
-//	
-//	public Image getEmotikonaKontaktu(int i) {
-//		return emoty.getEmot(Integer.parseInt(((Kontakt)kontakty.elementAt(i)).getEmotikona()));
-//	}
-//	
+	
 	public String getData(int i) {
 		return ((Zdarzenie)zdarzenia.elementAt(i)).getDzien() + "." + ((Zdarzenie)zdarzenia.elementAt(i)).getMiesiac() + "." + ((Zdarzenie)zdarzenia.elementAt(i)).getRok();
 	}

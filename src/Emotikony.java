@@ -1,6 +1,13 @@
 import java.util.Vector;
 import javax.microedition.lcdui.Image;
 
+/****
+ * 
+ * @author Przemek
+ *
+ * Klasa sluzaca do zaladowania obrazkow emotikon do programu i ich obslugi
+ *
+ */
 public class Emotikony {
 	
 	Vector emoty;

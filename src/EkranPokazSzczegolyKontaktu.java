@@ -8,6 +8,13 @@ import javax.microedition.lcdui.ImageItem;
 import javax.microedition.lcdui.Item;
 import javax.microedition.lcdui.StringItem;
 
+/****
+ * 
+ * @author Przemek
+ *
+ * Klasa obslugujaca ekran sluzacy do wyswietlania szczegolow zapisanego Kontaktu
+ *
+ */
 public class EkranPokazSzczegolyKontaktu extends Form implements CommandListener {
 	
 	private Display wyswietlacz;

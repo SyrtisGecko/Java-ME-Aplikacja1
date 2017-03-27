@@ -15,6 +15,13 @@ import javax.microedition.lcdui.StringItem;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.rms.RecordStoreException;
 
+/****
+ * 
+ * @author Przemek
+ *
+ * Klasa obslugujaca ekran sluzacy do dodawania nowych Kontaktow
+ *
+ */
 public class EkranDodajKontakt extends Form implements CommandListener {
 	
 	private Display wyswietlacz;

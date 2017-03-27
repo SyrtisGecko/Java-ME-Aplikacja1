@@ -13,15 +13,12 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 /*****
  * 
- * @author Przemek
+ * @author Przemyslaw Murach
  *
  *MojMidlet1 - glowna klasa midletu
- *Tworzy ekran glowny, z ktorego mozna przejsc do pozostalych ekranow sluzacych do zapisu i odczytu tekstu
- *Przechowywany jest tu rowniez, w zmiennej magazyn, zapisany tekst
+ *Tworzy ekran glowny, z ktorego mozna przejsc do pozostalych ekranow sluzacych do zapisu/odczytu Kontaktow i Zdarzen
  *
  */
-
-// TODO implement few other Comparators
 
 public class MojMidlet1 extends MIDlet implements CommandListener {
 	
@@ -31,10 +28,13 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	// deklaracja zmiennych dla komend
 	private Command koniec, dodaj_kontakt, wyswietl_liste, dodaj_zdarzenie, wyswietl_zdarzenia;
 
+	// deklaracja uzywanych ekranow
 	Form ekranDodajKontaktForm, ekranDodajZdarzenie;
 	Form tb; 
 	List ekranListaKontaktow, ekranTerminarz;
+	
 	Image obr;
+	
 	ListaKontaktow listaKontaktow;
 	Terminarz terminarz;
 	
@@ -59,8 +59,9 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		addScreens(tb);		
 	}
 
-	
-
+	/*****
+	 *  Wyswietlanie obrazka na stroniw glownej
+	 */
 	private void displayImage() {
 		try {
 			obr = Image.createImage("/img/friends-icon.png");
@@ -72,7 +73,11 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 }
 
 
-
+	/*****
+	 *  Tworzenie obslugiwanych ekranow
+	 *  
+	 * @param tb
+	 */
 	private void addScreens(Form tb) {
 		ekranDodajKontaktForm = new EkranDodajKontakt(tb, listaKontaktow);
 		ekranListaKontaktow = new EkranListaKontaktow(tb, listaKontaktow);
@@ -81,7 +86,9 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	}
 
 
-
+	/******
+	 * Tworzenie komend menu na stronie glownej
+	 */
 	private void createCommands() {
 		koniec = new Command("Koniec", Command.EXIT, 1);
 		dodaj_kontakt = new Command("Dodaj Kontakt", Command.ITEM, 1);
@@ -91,7 +98,10 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		
 		
 	}
-	
+
+	/******
+	 * Dodawanie komend menu do strony glownej
+	 */
 	private void addCommands(Displayable d) {
 		d.addCommand(koniec);
 		d.addCommand(dodaj_kontakt);
@@ -100,6 +110,8 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		d.addCommand(wyswietl_zdarzenia);
 		
 	}
+	
+	
 	protected void destroyApp(boolean unconditional) throws MIDletStateChangeException {
 		System.err.println("****Wywolano destroyApp****");
 		
@@ -116,16 +128,17 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		// ustawienie aktualnego ekranu midletu na TextBox
 		wyswietlacz.setCurrent(tb);
 		
-		
 		// dodanie Listenera
 		tb.setCommandListener((CommandListener)this);
 		
+		// otwieranie magazynow do zapisu danych
 		listaKontaktow.otworzMagazyn();
 		terminarz.otworzMagazyn();
 	}
 	
-	
-
+	/****
+	 * Obsluga komend
+	 */
 	public void commandAction(Command komenda, Displayable elemEkranu) {
 		if(komenda == koniec) {
 			// usun aplikacje
@@ -136,14 +149,19 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 			}
 			// zawiadom platforme
 			notifyDestroyed();
+			
 		} else if(komenda == dodaj_kontakt) {
 			wyswietlacz.setCurrent(ekranDodajKontaktForm);
+			
 		} else if(komenda == wyswietl_liste) {
 			wyswietlacz.setCurrent(ekranListaKontaktow);
+			
 			listaKontaktow.zaladujKontakty();
 			((EkranListaKontaktow) ekranListaKontaktow).wyswietlKontakty();
+			
 		} else if(komenda == dodaj_zdarzenie) {
 			wyswietlacz.setCurrent(ekranDodajZdarzenie);
+			
 		} else if(komenda == wyswietl_zdarzenia) {
 			wyswietlacz.setCurrent(ekranTerminarz);
 			terminarz.zaladujZdarzenia();

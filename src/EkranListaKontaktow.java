@@ -6,6 +6,13 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.List;
 
+/****
+ * 
+ * @author Przemek
+ *
+ * Klasa obslugujaca ekran sluzacy do wyswietlania listy z zapisanymi Kontaktami
+ *
+ */
 public class EkranListaKontaktow extends List implements CommandListener {
 	
 	private Display wyswietlacz;

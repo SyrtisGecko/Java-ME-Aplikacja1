@@ -1,4 +1,10 @@
-
+/****
+ * 
+ * @author Przemek
+ *
+ * Klasa opisujaca obiekt Zdarzenie
+ *
+ */
 public class Zdarzenie {
 	private int id = 0;
 	private String opis;

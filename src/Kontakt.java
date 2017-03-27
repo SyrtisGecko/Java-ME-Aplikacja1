@@ -1,4 +1,10 @@
-
+/****
+ * 
+ * @author Przemek
+ *
+ * Klasa opisujaca obiekt Kontakt
+ *
+ */
 public class Kontakt {
 	
 	private String nazwa = "";

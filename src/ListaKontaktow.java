@@ -9,6 +9,13 @@ import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreNotOpenException;
 
+/******
+ * 
+ * @author Przemek
+ *
+ * Klasa obslugujaca magazyn do przechowywania Kontaktow
+ *
+ */
 public class ListaKontaktow {
 
 	// deklaracja magazynu przechowujacego zapisany tekst
@@ -23,6 +30,7 @@ public class ListaKontaktow {
 		emoty = new Emotikony();
 	}
 	
+	// metoda otwierajaca magazyn
 	public void otworzMagazyn() {
 		try {
 			magazyn = RecordStore.openRecordStore("Wpisy", true, RecordStore.AUTHMODE_PRIVATE, false);
@@ -32,6 +40,7 @@ public class ListaKontaktow {
 		}
 	}
 	
+	// metoda zamykajaca magazyn
 	public void zamknijMagazyn() {
 		try {
 			magazyn.closeRecordStore();
@@ -41,6 +50,7 @@ public class ListaKontaktow {
 		}
 	}
 	
+	// laduje Kontakty z pamieci urzadzenia do wektora
 	protected void zaladujKontakty() {
 		kontakty = new Vector();
 
@@ -69,6 +79,7 @@ public class ListaKontaktow {
 		}
 	}
 	
+	// usuwa wszystke rekordy z magazynu
 	protected void wyczyscMagazyn() {
 		try {
 			System.out.println("ID " + magazyn.getNextRecordID());
@@ -85,6 +96,7 @@ public class ListaKontaktow {
 		zaladujKontakty();
 	}
 	
+	// usuwa wybrany rekord z magazynu
 	public void usunKontakt(int i) {
 		System.out.println("Kontakt do usuniecia: " + i + " - " + ((Kontakt)kontakty.elementAt(i)).getNazwa());
 		

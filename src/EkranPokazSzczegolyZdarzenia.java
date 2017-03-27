@@ -6,6 +6,13 @@ import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Item;
 import javax.microedition.lcdui.StringItem;
 
+/****
+ * 
+ * @author Przemek
+ *
+ * Klasa obslugujaca ekran sluzacy do wyswietlania szczegolow zapisanego Zdarzenia
+ *
+ */
 public class EkranPokazSzczegolyZdarzenia extends Form implements CommandListener {
 
 	private Display wyswietlacz;
