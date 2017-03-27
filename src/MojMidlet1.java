@@ -29,13 +29,14 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	private static Display wyswietlacz;
 	
 	// deklaracja zmiennych dla komend
-	private Command koniec, dodaj_kontakt, wyswietl_liste;
+	private Command koniec, dodaj_kontakt, wyswietl_liste, dodaj_zdarzenie, wyswietl_zdarzenia;
 
-	Form ekranDodajKontaktForm;
+	Form ekranDodajKontaktForm, ekranDodajZdarzenie;
 	Form tb; 
-	List ekranListaKontaktow;
+	List ekranListaKontaktow, ekranTerminarz;
 	Image obr;
 	ListaKontaktow listaKontaktow;
+	Terminarz terminarz;
 	
 	
 	public MojMidlet1() {
@@ -47,7 +48,7 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		displayImage();
 		
 		listaKontaktow = new ListaKontaktow();
-		
+		terminarz = new Terminarz();
 		// tworzenie komend
 		createCommands();
 				
@@ -75,6 +76,8 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	private void addScreens(Form tb) {
 		ekranDodajKontaktForm = new EkranDodajKontakt(tb, listaKontaktow);
 		ekranListaKontaktow = new EkranListaKontaktow(tb, listaKontaktow);
+		ekranDodajZdarzenie = new EkranDodajZdarzenie(tb, terminarz);
+		ekranTerminarz = new EkranTerminarz(tb, terminarz);
 	}
 
 
@@ -82,7 +85,10 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 	private void createCommands() {
 		koniec = new Command("Koniec", Command.EXIT, 1);
 		dodaj_kontakt = new Command("Dodaj Kontakt", Command.ITEM, 1);
-		wyswietl_liste = new Command("Wyswietl liste", Command.ITEM, 1);
+		wyswietl_liste = new Command("Wyswietl liste Kontaktow", Command.ITEM, 1);
+		dodaj_zdarzenie = new Command("Dodaj Zdarzenie", Command.ITEM, 1);
+		wyswietl_zdarzenia = new Command("Wyswietl liste Zdarzen", Command.ITEM, 1);
+		
 		
 	}
 	
@@ -90,12 +96,15 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		d.addCommand(koniec);
 		d.addCommand(dodaj_kontakt);
 		d.addCommand(wyswietl_liste);
+		d.addCommand(dodaj_zdarzenie);
+		d.addCommand(wyswietl_zdarzenia);
 		
 	}
 	protected void destroyApp(boolean unconditional) throws MIDletStateChangeException {
 		System.err.println("****Wywolano destroyApp****");
 		
 		listaKontaktow.zamknijMagazyn();
+		terminarz.zamknijMagazyn();
 	}
 
 	protected void pauseApp() {
@@ -112,6 +121,7 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 		tb.setCommandListener((CommandListener)this);
 		
 		listaKontaktow.otworzMagazyn();
+		terminarz.otworzMagazyn();
 	}
 	
 	
@@ -132,6 +142,12 @@ public class MojMidlet1 extends MIDlet implements CommandListener {
 			wyswietlacz.setCurrent(ekranListaKontaktow);
 			listaKontaktow.zaladujKontakty();
 			((EkranListaKontaktow) ekranListaKontaktow).wyswietlKontakty();
+		} else if(komenda == dodaj_zdarzenie) {
+			wyswietlacz.setCurrent(ekranDodajZdarzenie);
+		} else if(komenda == wyswietl_zdarzenia) {
+			wyswietlacz.setCurrent(ekranTerminarz);
+			terminarz.zaladujZdarzenia();
+			((EkranTerminarz) ekranTerminarz).wyswietlZdarzenia();
 		}
 		
 	}

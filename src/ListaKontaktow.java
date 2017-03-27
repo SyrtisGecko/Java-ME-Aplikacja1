@@ -12,7 +12,7 @@ import javax.microedition.rms.RecordStoreNotOpenException;
 public class ListaKontaktow {
 
 	// deklaracja magazynu przechowujacego zapisany tekst
-	public static RecordStore magazyn;
+	public RecordStore magazyn;
 	private RecordEnumeration iterator;
 	private Vector kontakty;
 
